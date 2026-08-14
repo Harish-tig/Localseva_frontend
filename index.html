@@ -1,232 +1,2414 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LocalSeva - Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/components.css" />
+    <title>LocalSeva - Future of Local Services</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
+      :root {
+        --primary-blue: #0d8fa8;    /* teal-500 — our main accent */
+        --light-blue:   #4dacc1;    /* teal-300 */
+        --lighter-blue: #b3dce5;    /* teal-100 */
+        --dark-blue:    #01242f;    /* teal-900 — brand dark */
+        --text-dark:    #01242f;
+        --text-light:   #3f6370;
+        --background:   #eef4f5;    /* teal-tinted off-white */
+        --white:        #f7fbfc;
+        --shadow:       rgba(1, 36, 47, 0.10);
+        --gray-bg:      #e4ecee;
+        --green:  #10b981;
+        --yellow: #f59e0b;
+        --purple: #7c3aed;
+        --teal:   #0d8fa8;
+        --orange: #f97316;
+        --pink:   #ec4899;
+        --cyan:   #22d3ee;
+        --indigo: #6366f1;
+      }
+
+      /* Dark mode variables */
+      .dark-mode {
+        --primary-blue: #22d3ee;
+        --light-blue:   #0d8fa8;
+        --lighter-blue: #044a5c;
+        --dark-blue:    #010f15;
+        --text-dark:    #e8f4f6;
+        --text-light:   #80c4d3;
+        --background:   #030e11;
+        --white:        #0a1f25;
+        --shadow:       rgba(0, 0, 0, 0.40);
+        --gray-bg:      #0d2830;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
       body {
+        background-color: var(--background);
+        color: var(--text-dark);
+        line-height: 1.4;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+      }
+
+      .text-container {
+        margin-bottom: 0.5rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: var(--white);
+        box-shadow: 0 2px 15px var(--shadow);
+        z-index: 1000;
+        padding: 0 5%;
+        transition:
+          background-color 0.3s,
+          box-shadow 0.3s;
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        text-decoration: none;
+      }
+
+      .logo svg {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin: 0 1.5rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-dark);
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary-blue);
+      }
+
+      /* Theme Toggle Button */
+      .theme-toggle {
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
-        /* Subtle teal-tinted gradient — not too heavy */
-        background: linear-gradient(145deg, #01242f 0%, #03353f 50%, #01242f 100%);
+        background: none;
+        border: 2px solid var(--primary-blue);
+        color: var(--primary-blue);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-right: 15px;
+        transition: all 0.3s;
+      }
+
+      .theme-toggle:hover {
+        background-color: var(--primary-blue);
+        color: white;
+        transform: rotate(15deg);
+      }
+
+      .theme-toggle i {
+        font-size: 1.2rem;
+      }
+
+      .login-btn {
+        background-color: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 0.7rem 1.8rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .login-btn:hover {
+        background-color: var(--dark-blue);
+      }
+
+      /* Updated Hero Section */
+      .hero {
+        padding: 10rem 5% 5rem;
+        display: flex;
+        align-items: stretch;
+        min-height: 90vh;
+        position: relative;
+        gap: 3rem;
+      }
+
+      .hero-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        color: var(--text-dark);
+      }
+
+      .hero h1 span {
+        color: var(--primary-blue);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+        max-width: 600px;
+      }
+
+      /* Hero Providers Card - Single Provider */
+      .hero-providers-card {
+        background-color: var(--white);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        max-width: 500px;
+        margin-top: 2rem;
+      }
+
+      .hero-providers-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        border-color: var(--primary-blue);
+      }
+
+      .hero-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--lighter-blue);
+      }
+
+      .hero-card-header h3 {
+        font-size: 1.4rem;
+        color: var(--text-dark);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .hero-card-header h3 i {
+        color: var(--yellow);
+      }
+
+      .view-all {
+        color: var(--primary-blue);
+        font-weight: 600;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: gap 0.3s;
+      }
+
+      .hero-providers-card:hover .view-all {
+        gap: 10px;
+      }
+
+      /* Single provider display in hero */
+      .hero-provider-single {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+
+      .hero-provider-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-size: cover;
+        background-position: center;
+        flex-shrink: 0;
+      }
+
+      .hero-provider-info {
+        flex: 1;
+      }
+
+      .hero-provider-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: var(--text-dark);
+      }
+
+      .hero-provider-category {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .hero-provider-rating {
+        color: var(--yellow);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .hero-visual {
+        flex: 1;
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        min-height: 500px;
+      }
+
+      /* Video carousel container */
+      .video-carousel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .video-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .video-slide.active {
+        opacity: 1;
+      }
+
+      .hero-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .video-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 2;
+      }
+
+      .video-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .video-dot.active {
+        background-color: white;
+        transform: scale(1.2);
+      }
+
+      /* Section Title */
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: var(--text-dark);
+      }
+
+      .section-title span {
+        color: var(--primary-blue);
+      }
+
+      /* Service Providers Section */
+      .service-providers-section {
+        padding: 5rem 5%;
+        background-color: var(--white);
+      }
+
+      /* Providers Container with auto-scroll */
+      .providers-wrapper {
+        position: relative;
+        margin-bottom: 4rem;
+        overflow: hidden;
+      }
+
+      .providers-scroll-container {
+        overflow-x: auto;
+        padding: 1rem 0;
+        scrollbar-width: none; /* Firefox */
+      }
+
+      .providers-scroll-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .providers-container {
+        display: flex;
+        gap: 2rem;
+        width: max-content;
+        padding: 0 1rem;
+        animation: scrollProviders 30s linear infinite;
+        animation-play-state: paused;
+      }
+
+      .providers-container.loaded {
+        animation-play-state: running;
+      }
+
+      .providers-wrapper:hover .providers-container {
+        animation-play-state: paused;
+      }
+
+      @keyframes scrollProviders {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .provider-card {
+        background-color: var(--white);
+        border-radius: 15px;
+        box-shadow: 0 5px 20px var(--shadow);
+        overflow: hidden;
+        transition: transform 0.3s;
+        min-width: 300px;
+        max-width: 300px;
+      }
+
+      .provider-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .provider-img {
+        height: 180px;
+        width: 100%;
+        background-color: var(--light-blue);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+
+      .provider-availability {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background-color: var(--green);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .provider-unavailable {
+        background-color: #f44336;
+      }
+
+      .provider-details {
         padding: 1.5rem;
       }
 
-      .auth-card {
-        width: 100%;
-        max-width: 420px;
-        background: var(--surface);
-        border-radius: 1.25rem;
-        box-shadow: 0 24px 60px rgba(0,0,0,0.35);
-        overflow: hidden;
-        animation: fadeIn 0.4s ease both;
-      }
-
-      .auth-header {
-        text-align: center;
-        padding: 2.25rem 2rem 1.5rem;
-      }
-
-      .auth-logo {
+      .provider-header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        justify-content: center;
-        gap: 0.625rem;
-        margin-bottom: 0.75rem;
-      }
-      .auth-logo-icon {
-        width: 38px; height: 38px;
-        background: linear-gradient(135deg, var(--teal-500) 0%, var(--teal-800) 100%);
-        border-radius: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 1rem;
-        box-shadow: 0 4px 12px rgba(13,143,168,0.35);
-      }
-      .auth-logo-text {
-        font-size: 1.375rem;
-        font-weight: 800;
-        color: var(--teal-900);
-        letter-spacing: -0.5px;
+        margin-bottom: 1rem;
       }
 
-      .auth-subtitle {
-        color: var(--text-muted);
-        font-size: 0.8125rem;
-        margin: 0;
-      }
-
-      .auth-body {
-        padding: 0.25rem 2rem 1.75rem;
-      }
-
-      .auth-footer {
-        text-align: center;
-        padding: 1rem 2rem;
-        background: var(--bg-alt);
-        border-top: 1px solid var(--border);
-        font-size: 0.8125rem;
-        color: var(--text-secondary);
-      }
-
-      .forgot-link {
-        display: block;
-        text-align: right;
-        font-size: 0.75rem;
+      .provider-name {
+        font-size: 1.3rem;
         font-weight: 600;
-        margin-bottom: 1.25rem;
-        color: var(--primary);
       }
-      .forgot-link:hover { text-decoration: underline; }
 
-      .demo-accounts {
-        margin-top: 1.25rem;
-        padding: 0.875rem 1rem;
-        background: var(--primary-subtle);
-        border-radius: 0.75rem;
-        border: 1px solid var(--primary-light);
-      }
-      .demo-accounts h4 {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--primary);
-        margin-bottom: 0.5rem;
+      .provider-rating {
+        color: var(--yellow);
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
-        gap: 0.4rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
       }
-      .demo-btns { display: flex; gap: 0.5rem; }
-      .demo-btns .btn { flex: 1; font-size: 0.75rem; }
+
+      .provider-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      /* Updated price and services completed section */
+      .provider-price-services {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.8rem 0;
+        border-top: 1px solid var(--lighter-blue);
+        border-bottom: 1px solid var(--lighter-blue);
+      }
+
+      .provider-price {
+        color: var(--primary-blue);
+        font-weight: 600;
+        font-size: 1.3rem;
+      }
+
+      .provider-services-count {
+        color: var(--text-dark);
+        font-weight: 600;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .provider-services-count i {
+        color: var(--green);
+      }
+
+      .provider-categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .category-tag {
+        background-color: var(--lighter-blue);
+        color: var(--primary-blue);
+        padding: 0.3rem 0.7rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .provider-card button {
+        width: 100%;
+        background-color: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 0.7rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .provider-card button:hover {
+        background-color: var(--dark-blue);
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-light);
+        font-size: 1.2rem;
+        width: 100%;
+      }
+
+      /* Categories Section - Reverted to original */
+      .categories-container {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--lighter-blue);
+      }
+
+      .categories-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-dark);
+      }
+
+      .categories-title span {
+        color: var(--primary-blue);
+      }
+
+      .categories-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        padding: 1rem 0;
+      }
+
+      .category-item {
+        background-color: var(--white);
+        border-radius: 30px;
+        padding: 0.8rem 1.2rem;
+        box-shadow: 0 3px 10px var(--shadow);
+        transition: all 0.3s;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--text-dark);
+        border: 2px solid transparent;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .category-item:hover {
+        background-color: var(--primary-blue);
+        color: white;
+        transform: translateY(-3px);
+        border-color: var(--primary-blue);
+      }
+
+      /* Why Choose Us Section */
+      .why-choose-section {
+        padding: 5rem 5%;
+        background-color: var(--white);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .feature-card:nth-child(1) {
+        background: linear-gradient(135deg, #e8f4fd 0%, #ffffff 100%);
+        border-top: 5px solid var(--primary-blue);
+      }
+
+      .feature-card:nth-child(2) {
+        background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+        border-top: 5px solid var(--teal);
+      }
+
+      .feature-card:nth-child(3) {
+        background: linear-gradient(135deg, #f5f0ff 0%, #ffffff 100%);
+        border-top: 5px solid var(--purple);
+      }
+
+      .feature-card:nth-child(4) {
+        background: linear-gradient(135deg, #fff0f5 0%, #ffffff 100%);
+        border-top: 5px solid var(--pink);
+      }
+
+      .feature-card:nth-child(5) {
+        background: linear-gradient(135deg, #f0fff5 0%, #ffffff 100%);
+        border-top: 5px solid var(--green);
+      }
+
+      .feature-card:nth-child(6) {
+        background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
+        border-top: 5px solid var(--orange);
+      }
+
+      /* Dark mode adjustments for feature cards */
+      .dark-mode .feature-card:nth-child(1) {
+        background: linear-gradient(135deg, #2a3c7a 0%, #1e1e1e 100%);
+      }
+
+      .dark-mode .feature-card:nth-child(2) {
+        background: linear-gradient(135deg, #1e3a5f 0%, #1e1e1e 100%);
+      }
+
+      .dark-mode .feature-card:nth-child(3) {
+        background: linear-gradient(135deg, #3a2a5f 0%, #1e1e1e 100%);
+      }
+
+      .dark-mode .feature-card:nth-child(4) {
+        background: linear-gradient(135deg, #5f2a4a 0%, #1e1e1e 100%);
+      }
+
+      .dark-mode .feature-card:nth-child(5) {
+        background: linear-gradient(135deg, #1e5f3a 0%, #1e1e1e 100%);
+      }
+
+      .dark-mode .feature-card:nth-child(6) {
+        background: linear-gradient(135deg, #5f471e 0%, #1e1e1e 100%);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-icon {
+        font-size: 2.8rem;
+        color: var(--primary-blue);
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-card:nth-child(2) .feature-icon {
+        color: var(--teal);
+      }
+
+      .feature-card:nth-child(3) .feature-icon {
+        color: var(--purple);
+      }
+
+      .feature-card:nth-child(4) .feature-icon {
+        color: var(--pink);
+      }
+
+      .feature-card:nth-child(5) .feature-icon {
+        color: var(--green);
+      }
+
+      .feature-card:nth-child(6) .feature-icon {
+        color: var(--orange);
+      }
+
+      .feature-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-dark);
+        font-weight: 600;
+      }
+
+      .feature-desc {
+        color: var(--text-light);
+        line-height: 1.7;
+        flex: 1;
+      }
+
+      /* Challenges & Solution Section */
+      .challenge-solution-section {
+        padding: 5rem 5%;
+        background-color: var(--gray-bg);
+      }
+
+      .cs-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .challenges-card,
+      .solutions-card {
+        background-color: var(--white);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s;
+        height: 100%;
+      }
+
+      .challenges-card:hover,
+      .solutions-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      }
+
+      .challenges-card {
+        border-top: 6px solid #ff6b6b;
+      }
+
+      .solutions-card {
+        border-top: 6px solid var(--primary-blue);
+      }
+
+      .cs-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-dark);
+        display: flex;
+        align-items: center;
+      }
+
+      .challenges-card .cs-title {
+        color: #ff6b6b;
+      }
+
+      .solutions-card .cs-title {
+        color: var(--primary-blue);
+      }
+
+      .cs-title i {
+        margin-right: 10px;
+        font-size: 1.5rem;
+      }
+
+      .challenge-list,
+      .solution-list {
+        list-style: none;
+        margin-bottom: 2rem;
+      }
+
+      .challenge-list li,
+      .solution-list li {
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .challenge-list li:last-child,
+      .solution-list li:last-child {
+        border-bottom: none;
+      }
+
+      .challenge-list i,
+      .solution-list i {
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+
+      .challenge-list i {
+        color: #ff6b6b;
+      }
+
+      .solution-list i {
+        color: var(--green);
+      }
+
+      .cs-button-container {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
+
+      .challenge-btn {
+        background-color: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 5px 15px rgba(116, 149, 232, 0.3);
+      }
+
+      .challenge-btn:hover {
+        background-color: var(--dark-blue);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(116, 149, 232, 0.4);
+      }
+
+      /* Footer */
+      .footer {
+        background-color: var(--dark-blue);
+        color: white;
+        padding: 2rem 5%;
+        text-align: center;
+      }
+
+      .footer-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-links li {
+        margin: 0 1rem;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s;
+      }
+
+      .footer-links a:hover {
+        opacity: 0.8;
+      }
+
+      .copyright {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      /* Loading Spinner */
+      .loading-spinner {
+        display: none;
+        text-align: center;
+        padding: 2rem;
+        grid-column: 1 / -1;
+      }
+
+      .spinner {
+        border: 4px solid var(--lighter-blue);
+        border-top: 4px solid var(--primary-blue);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Modal Styles - Updated for transparent blur */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .modal-content {
+        background-color: var(--white);
+        border-radius: 20px;
+        width: 75%;
+        max-width: 900px;
+        min-width: 400px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        animation: modalFadeIn 0.3s ease;
+        position: relative;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-30px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: var(--primary-blue);
+        border: none;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        z-index: 10;
+        transition: all 0.3s;
+      }
+
+      .close-modal:hover {
+        background-color: var(--dark-blue);
+        transform: rotate(90deg);
+      }
+
+      .modal-body {
+        padding: 2.5rem;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .modal-provider-header {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid var(--lighter-blue);
+      }
+
+      .modal-provider-avatar {
+        flex-shrink: 0;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.2rem;
+        font-weight: bold;
+        background-size: cover;
+        background-position: center;
+        margin-right: 2rem;
+        border: 5px solid var(--lighter-blue);
+      }
+
+      .modal-provider-main-info {
+        flex: 1;
+      }
+
+      .modal-provider-name {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-dark);
+        font-weight: 600;
+      }
+
+      .modal-provider-rating {
+        color: var(--yellow);
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.1rem;
+      }
+
+      .modal-provider-location {
+        color: var(--text-light);
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+      }
+
+      .modal-provider-stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1rem;
+      }
+
+      .modal-stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.8rem 1.5rem;
+        background: var(--lighter-blue);
+        border-radius: 10px;
+        min-width: 120px;
+      }
+
+      .modal-stat-label {
+        font-size: 0.85rem;
+        color: var(--text-light);
+        margin-bottom: 0.3rem;
+      }
+
+      .modal-stat-value {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+
+      .modal-provider-details {
+        margin-bottom: 2rem;
+      }
+
+      .modal-provider-bio {
+        color: var(--text-dark);
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        font-size: 1.05rem;
+        padding: 1.5rem;
+        background: var(--lighter-blue);
+        border-radius: 15px;
+      }
+
+      .modal-details-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .detail-item {
+        background: linear-gradient(
+          135deg,
+          var(--lighter-blue) 0%,
+          #ffffff 100%
+        );
+        padding: 1.2rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-blue);
+      }
+
+      .detail-label {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .detail-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+
+      .modal-categories {
+        margin-bottom: 2rem;
+      }
+
+      .modal-categories h4 {
+        margin-bottom: 1rem;
+        color: var(--text-dark);
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .modal-footer {
+        padding: 1.5rem 2.5rem;
+        border-top: 2px solid var(--lighter-blue);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--lighter-blue);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+
+      .modal-price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+      }
+
+      .modal-price-type {
+        font-size: 1rem;
+        color: var(--text-light);
+        margin-left: 5px;
+      }
+
+      .modal-book-btn {
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue) 0%,
+          var(--dark-blue) 100%
+        );
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 5px 15px rgba(116, 149, 232, 0.4);
+      }
+
+      .modal-book-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(116, 149, 232, 0.6);
+      }
+
+      .modal-close-btn {
+        background-color: transparent;
+        color: var(--text-dark);
+        border: 2px solid var(--light-blue);
+        padding: 0.9rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .modal-close-btn:hover {
+        background-color: var(--lighter-blue);
+        border-color: var(--primary-blue);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+
+        .features-grid {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .modal-content {
+          width: 80%;
+        }
+
+        .modal-details-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 992px) {
+        .hero {
+          flex-direction: column;
+          padding-top: 8rem;
+          gap: 2rem;
+        }
+
+        .hero-content {
+          text-align: center;
+          align-items: center;
+        }
+
+        .hero p {
+          text-align: center;
+        }
+
+        .hero-providers-card {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .hero-visual {
+          width: 100%;
+          min-height: 400px;
+          order: -1;
+        }
+
+        .modal-content {
+          width: 85%;
+        }
+
+        .modal-provider-header {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        .modal-provider-avatar {
+          margin-right: 0;
+          margin-bottom: 1.5rem;
+        }
+
+        .modal-provider-stats {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .cs-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-content {
+          width: 90%;
+          min-width: 300px;
+        }
+
+        .modal-details-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-footer {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .modal-footer button,
+        .modal-footer a {
+          width: 100%;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .challenges-card,
+        .solutions-card {
+          padding: 1.5rem;
+        }
+
+        .categories-title {
+          font-size: 1.2rem;
+        }
+
+        .category-item {
+          padding: 0.6rem 0.8rem;
+          font-size: 0.85rem;
+        }
+
+        .modal-content {
+          width: 95%;
+          padding: 0;
+        }
+
+        .modal-body {
+          padding: 1.5rem;
+        }
+
+        .modal-provider-name {
+          font-size: 1.4rem;
+        }
+
+        .modal-provider-stats {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .modal-stat-item {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="auth-card">
-      <div class="auth-header">
-        <div class="auth-logo">
-          <div class="auth-logo-icon"><i class="fas fa-hands-helping"></i></div>
-          <span class="auth-logo-text">LocalSeva</span>
-        </div>
-        <p class="auth-subtitle">Welcome back! sign in to your account</p>
-      </div>
-
-      <div class="auth-body">
-        <form id="loginForm">
-          <div class="form-group">
-            <label class="form-label required" for="username">Username</label>
-            <div style="position: relative;">
-              <i class="fas fa-user" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events:none;"></i>
-              <input type="text" id="username" class="form-control" style="padding-left: 2.5rem;" placeholder="Enter your username" required />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label required" for="password">Password</label>
-            <div style="position: relative;">
-              <i class="fas fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events:none;"></i>
-              <input type="password" id="password" class="form-control" style="padding-left: 2.5rem; padding-right: 2.75rem;" placeholder="••••••••" required />
-              <button type="button" title="Toggle password visibility" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); background: transparent; border: none; cursor: pointer; padding: 0.25rem; display: flex; align-items: center; justify-content: center; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'" onclick="const p = document.getElementById('password'); const i = this.querySelector('i'); if (p.type === 'password') { p.type = 'text'; i.classList.replace('fa-eye', 'fa-eye-slash'); } else { p.type = 'password'; i.classList.replace('fa-eye-slash', 'fa-eye'); }">
-                <i class="fas fa-eye" style="font-size: 1.1rem;"></i>
-              </button>
-            </div>
-          </div>
-
-          <a href="#" class="forgot-link" onclick="openModal('forgotPasswordModal')">Forgot password?</a>
-
-          <button type="submit" class="btn btn-primary btn-block btn-lg">
-            Sign In &nbsp;<i class="fas fa-arrow-right"></i>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="home.html" class="logo"> LocalSeva </a>
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="find-service.html">Find Service</a></li>
+          <!-- <li><a href="marketplace.html">Marketplace</a></li> -->
+        </ul>
+        <div style="display: flex; align-items: center">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            title="Toggle Dark Mode"
+          >
+            <i class="fas fa-moon"></i>
           </button>
-        </form>
+          <a href="index.html" class="login-btn">Login</a>
+        </div>
+      </div>
+    </nav>
 
-        <div class="demo-accounts">
-          <h4><i class="fas fa-flask"></i> Demo Accounts</h4>
-          <div class="demo-btns">
-            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('username').value='pooja_iyer'; document.getElementById('password').value='Test@1234';">
-              <i class="fas fa-user-tie"></i> Provider
-            </button>
-            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('username').value='aarav_shah'; document.getElementById('password').value='Test@1234';">
-              <i class="fas fa-user"></i> Client
-            </button>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>
+          Need help from experts. <span>The future of local services</span>
+        </h1>
+        <p>
+          Connect with trusted professionals in your neighborhood for all your
+          service needs. Quality work, transparent pricing, and zero commission
+          fees.
+        </p>
+
+        <!-- Service Providers Card on Left Side - Shows only first provider -->
+        <div
+          class="hero-providers-card"
+          onclick="window.location.href = 'find-service.html'"
+        >
+          <div class="hero-card-header">
+            <h3><i class="fas fa-star"></i> Top Service Provider</h3>
+            <div class="view-all">
+              View All <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+          <div class="hero-provider-single" id="topProviderSingle">
+            <!-- Single provider will be loaded here -->
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Video Carousel with 4 videos -->
+        <div class="video-carousel">
+            <div class="video-slide active">
+              <video class="hero-video" autoplay muted playsinline>
+                <source src="static/VID_20260120222610.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="video-slide">
+              <video class="hero-video" muted playsinline>
+                <source src="static/VID_20260120222639.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="video-slide">
+              <video class="hero-video" muted playsinline>
+                <source src="static/VID_20260120222719.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="video-slide">
+              <video class="hero-video" muted playsinline>
+                <source src="static/VID_20260120222811.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+          <div class="video-controls">
+            <div class="video-dot active" data-index="0"></div>
+            <div class="video-dot" data-index="1"></div>
+            <div class="video-dot" data-index="2"></div>
+            <div class="video-dot" data-index="3"></div>
+          </div>
+        </div><!-- /.video-carousel -->
+      </div><!-- /.hero-visual -->
+    </section><!-- /#home -->
+
+
+    <!-- Service Providers Section -->
+    <section class="service-providers-section" id="find-service">
+      <h2 class="section-title">Top <span>Service Providers</span> Near You</h2>
+
+      <!-- Providers Container with auto-scroll -->
+      <div class="providers-wrapper">
+        <div class="providers-scroll-container">
+          <div class="providers-container" id="providersContainer">
+            <div class="loading-spinner" id="loadingSpinner">
+              <div class="spinner"></div>
+              <p>Loading service providers...</p>
+            </div>
+            <!-- Provider cards will be loaded here by JavaScript -->
           </div>
         </div>
       </div>
 
-      <div class="auth-footer">
-        Don't have an account? <a href="signup.html">Create one now</a>
+      <!-- Categories Section - Reverted to original -->
+      <div class="categories-container">
+        <h3 class="categories-title">Browse By <span>Category</span></h3>
+        <div class="categories-row">
+          <div class="category-item" data-category="Plumbing">
+            <i class="fas fa-faucet" style="margin-right: 5px"></i> Plumbing
+          </div>
+          <div class="category-item" data-category="Cleaning">
+            <i class="fas fa-broom" style="margin-right: 5px"></i> Cleaning
+          </div>
+          <div class="category-item" data-category="Electrical">
+            <i class="fas fa-bolt" style="margin-right: 5px"></i> Electrical
+          </div>
+          <div class="category-item" data-category="Tutoring">
+            <i class="fas fa-graduation-cap" style="margin-right: 5px"></i>
+            Tutor
+          </div>
+          <div class="category-item" data-category="Carpentry">
+            <i class="fas fa-hammer" style="margin-right: 5px"></i> Carpentry
+          </div>
+          <div class="category-item" data-category="Fitness">
+            <i class="fas fa-dumbbell" style="margin-right: 5px"></i> Fitness
+          </div>
+          <div class="category-item" data-category="Delivery">
+            <i class="fas fa-truck-moving" style="margin-right: 5px"></i>
+            Delivery &amp; Moving
+          </div>
+          <div class="category-item" data-category="Ceramic">
+            <i class="fas fa-tile" style="margin-right: 5px"></i> Ceramic
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Forgot Password Modal -->
-    <div class="modal-overlay" id="forgotPasswordModal">
-      <div class="modal">
-        <div class="modal-header">
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-section">
+      <h2 class="section-title">What Makes <span>LocalSeva</span> Unique?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-id-card"></i></div>
+          <h3 class="feature-title">Unified Identity System</h3>
+          <p class="feature-desc">
+            Single profile across all roles—no multiple accounts needed. Be a
+            service provider, seller, and buyer with one seamless identity.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3 class="feature-title">Hyperlocal Focus</h3>
+          <p class="feature-desc">
+            5-10 km radius filtering for neighborhood connections. Find and
+            connect with professionals right in your community.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-tag"></i></div>
+          <h3 class="feature-title">Transparent Pricing</h3>
+          <p class="feature-desc">
+            Detailed quotes before work begins—zero hidden charges. Know exactly
+            what you're paying for with upfront pricing.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-handshake"></i></div>
+          <h3 class="feature-title">Zero-Commission Marketplace</h3>
+          <p class="feature-desc">
+            No fees for sellers—true peer-to-peer economy. Keep 100% of your
+            earnings when you provide services or sell items.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-star"></i></div>
+          <h3 class="feature-title">Cross-Module Reputation</h3>
+          <p class="feature-desc">
+            Holistic trust score spanning services & marketplace. Build and
+            carry your reputation across all platform interactions.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-comments"></i></div>
+          <h3 class="feature-title">Direct Communication</h3>
+          <p class="feature-desc">
+            Shared contact details—no platform gatekeeping. Communicate directly
+            with service providers without intermediaries.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenges & Solution Section -->
+    <section class="challenge-solution-section">
+      <h2 class="section-title" style="text-align: center; margin-bottom: 3rem">
+        Bridging the Gap in <span>Local Services & Commerce</span>
+      </h2>
+      <div class="cs-container">
+        <div class="challenges-card">
+          <h3 class="cs-title">
+            <i class="fas fa-exclamation-triangle"></i> The Challenge
+          </h3>
+          <ul class="challenge-list">
+            <li>
+              <i class="fas fa-times"></i> Fragmented platforms requiring
+              multiple apps
+            </li>
+            <li>
+              <i class="fas fa-times"></i> Lack of trust with unverified
+              providers
+            </li>
+            <li>
+              <i class="fas fa-times"></i> Opaque pricing structures and hidden
+              fees
+            </li>
+            <li>
+              <i class="fas fa-times"></i> High commission rates eating into
+              profits
+            </li>
+          </ul>
+          <div class="cs-button-container">
+            <a href="index.html" class="challenge-btn">Try Our Solution</a>
+          </div>
+        </div>
+        <div class="solutions-card">
+          <h3 class="cs-title">
+            <i class="fas fa-lightbulb"></i> Our Solution
+          </h3>
+          <ul class="solution-list">
+            <li>
+              <i class="fas fa-check"></i>
+              <strong>Service Booking Module:</strong> Professional marketplace
+              connecting customers with verified local experts through
+              streamlined quote-based system with real-time tracking
+            </li>
+            <li>
+              <i class="fas fa-check"></i>
+              <strong>Community Marketplace:</strong> Zero-commission P2P
+              trading platform for direct neighbor-to-neighbor commerce
+            </li>
+            <li>
+              <i class="fas fa-check"></i>
+              <strong>Unified Experience:</strong> Single profile serving
+              multiple roles—consumer, provider, seller, buyer—simultaneously
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-logo">LocalSeva</div>
+      <ul class="footer-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="find-service.html">Find Service</a></li>
+        <!-- <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li> -->
+      </ul>
+      <div class="copyright">
+        © 2026 LocalSeva. All rights reserved. Bridging the gap in local
+        services & commerce.
+      </div>
+    </footer>
+
+    <!-- Modal Popup for Service Provider Details -->
+    <div class="modal-overlay" id="providerModal">
+      <div class="modal-content">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="modal-body" id="modalBody">
+          <!-- Modal content will be loaded here -->
+        </div>
+        <div class="modal-footer">
+          <div class="modal-price-container">
+            <span class="modal-price" id="modalPrice">₹500</span>
+            <span class="modal-price-type" id="modalPriceType">/service</span>
+          </div>
           <div>
-            <h3 class="modal-title" id="fpModalTitle">Reset Password</h3>
-            <p class="text-muted" id="fpModalSubtitle" style="font-size: var(--font-size-sm); margin-bottom: 0;">Enter your email to receive a reset OTP</p>
-          </div>
-          <button class="modal-close" id="fpCloseBtn"><i class="fas fa-times"></i></button>
-        </div>
-
-        <div class="modal-body">
-          <!-- Step 1: Email -->
-          <div id="fpStep1" class="tab-pane active">
-            <div id="fpStep1Msg" class="form-error mb-2"></div>
-            <form id="fpEmailForm">
-              <div class="form-group">
-                <label class="form-label" for="fpEmail">Email Address</label>
-                <input type="email" id="fpEmail" class="form-control" placeholder="your@email.com" required>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block" id="fpEmailBtn">
-                <i class="fas fa-paper-plane"></i> Send OTP
-              </button>
-            </form>
-          </div>
-
-          <!-- Step 2: OTP & New Password -->
-          <div id="fpStep2" class="tab-pane">
-            <div id="fpStep2Msg" class="form-error mb-2"></div>
-            <form id="fpResetForm">
-              <div class="form-group">
-                <label class="form-label" for="fpOtp">Enter OTP Code</label>
-                <input type="text" id="fpOtp" class="form-control" placeholder="123456" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="fpNewPassword">New Password</label>
-                <input type="password" id="fpNewPassword" class="form-control" placeholder="Minimum 8 characters" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="fpConfirmPassword">Confirm Password</label>
-                <input type="password" id="fpConfirmPassword" class="form-control" placeholder="Confirm new password" required>
-              </div>
-
-              <div class="flex gap-2">
-                <button type="button" class="btn btn-secondary flex-1" id="fpBackToStep1">
-                  <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <button type="submit" class="btn btn-success flex-1" id="fpResetBtn">
-                  <i class="fas fa-lock"></i> Reset Password
-                </button>
-              </div>
-            </form>
+            <button class="modal-close-btn" id="modalCloseBtn">Close</button>
+            <a href="index.html" class="modal-book-btn" id="modalBookBtn"
+              >Book Service</a
+            >
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/api.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/auth.js"></script>
+    <script>
+      // API Configuration
+      const API_BASE_URL = "https://localseva-kuak.onrender.com/api/user/providers/";
+
+      // DOM Elements
+      const providersContainer = document.getElementById("providersContainer");
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      const topProviderSingle = document.getElementById("topProviderSingle");
+      const categoryItems = document.querySelectorAll(".category-item");
+      const themeToggle = document.getElementById("themeToggle");
+
+      // Video carousel elements
+      const videoSlides = document.querySelectorAll(".video-slide");
+      const videoElements = document.querySelectorAll(".hero-video");
+      const videoDots = document.querySelectorAll(".video-dot");
+
+      // Modal Elements
+      const providerModal = document.getElementById("providerModal");
+      const closeModalBtn = document.getElementById("closeModal");
+      const modalCloseBtn = document.getElementById("modalCloseBtn");
+      const modalBody = document.getElementById("modalBody");
+      const modalBookBtn = document.getElementById("modalBookBtn");
+      const modalPrice = document.getElementById("modalPrice");
+      const modalPriceType = document.getElementById("modalPriceType");
+
+      // Global state
+      let allProviders = [];
+      let currentSearchTerm = "";
+      let currentFilters = {};
+      let selectedProvider = null;
+
+      // Video carousel state
+      let currentVideoIndex = 0;
+      const totalVideos = 4;
+      let videoInterval;
+
+      // Theme state
+      let isDarkMode = false;
+
+      // Function to fetch service providers from API
+      async function fetchServiceProviders(params = {}) {
+        try {
+          loadingSpinner.style.display = "block";
+
+          // Build query string
+          const queryParams = new URLSearchParams();
+          for (const [key, value] of Object.entries(params)) {
+            if (value !== undefined && value !== "") {
+              queryParams.append(key, value);
+            }
+          }
+
+          // Add ordering by rating by default
+          if (!params.ordering) {
+            queryParams.append("ordering", "-rating");
+          }
+
+          const apiUrl = `${API_BASE_URL}?${queryParams.toString()}`;
+          console.log("Fetching from:", apiUrl);
+
+          const response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const providers = await response.json();
+
+          // Log the API response to console for debugging
+          console.log("API Response:", providers);
+          console.log(
+            "First provider details:",
+            providers[0] ? providers[0] : "No providers found",
+          );
+
+          if (providers[0]) {
+            console.log("First provider price fields:", {
+              base_price: providers[0].base_price,
+              pricing_type: providers[0].pricing_type,
+              services_completed: providers[0].services_completed,
+            });
+          }
+
+          // Normalize relative image paths to the api origin
+          const apiOrigin = "https://localseva-kuak.onrender.com";
+          if (Array.isArray(providers)) {
+            providers.forEach(p => {
+              if (p.avatar) {
+                if (!p.avatar.startsWith('http://') && !p.avatar.startsWith('https://')) {
+                  const separator = p.avatar.startsWith('/') ? '' : '/';
+                  p.avatar = `${apiOrigin}${separator}${p.avatar}`;
+                }
+              }
+            });
+          }
+
+          loadingSpinner.style.display = "none";
+          return providers;
+        } catch (error) {
+          console.error("Error fetching service providers:", error);
+          loadingSpinner.style.display = "none";
+          return [];
+        }
+      }
+
+      // Function to create provider card HTML
+      function createProviderCard(provider) {
+        // Generate initials for avatar if no image
+        const initials = provider.username
+          ? provider.username
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()
+              .substring(0, 2)
+          : "LS";
+
+        // Generate star rating HTML
+        const rating = provider.rating || 0;
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 >= 0.5;
+        let starsHTML = "";
+
+        for (let i = 1; i <= 5; i++) {
+          if (i <= fullStars) {
+            starsHTML += '<i class="fas fa-star"></i>';
+          } else if (i === fullStars + 1 && hasHalfStar) {
+            starsHTML += '<i class="fas fa-star-half-alt"></i>';
+          } else {
+            starsHTML += '<i class="far fa-star"></i>';
+          }
+        }
+
+        // Format categories
+        let categoriesHTML = "";
+        if (provider.categories) {
+          if (Array.isArray(provider.categories)) {
+            categoriesHTML = provider.categories
+              .slice(0, 2)
+              .map((cat) => `<span class="category-tag">${cat}</span>`)
+              .join("");
+          } else if (typeof provider.categories === "string") {
+            try {
+              const categoriesArray = JSON.parse(provider.categories);
+              if (Array.isArray(categoriesArray)) {
+                categoriesHTML = categoriesArray
+                  .slice(0, 2)
+                  .map((cat) => `<span class="category-tag">${cat}</span>`)
+                  .join("");
+              } else {
+                categoriesHTML = `<span class="category-tag">${provider.categories}</span>`;
+              }
+            } catch {
+              categoriesHTML = `<span class="category-tag">${provider.categories}</span>`;
+            }
+          }
+        }
+
+        // Format price - Dynamic from API
+        const price = provider.base_price || "50";
+        const pricingType = provider.pricing_type || "FLEXIBLE";
+
+        const priceText =
+          pricingType === "FIXED" ? `₹${price}` : `₹${price}/hr`;
+
+        // Completed bookings count from API
+        const servicesCompleted = provider.completed_bookings_count || 0;
+
+        return `
+                <div class="provider-card" data-id="${provider.id}">
+                    <div class="provider-img" style="${
+                      provider.avatar
+                        ? `background-image: url('${provider.avatar}')`
+                        : "background-color: var(--light-blue)"
+                    }">
+                        ${
+                          !provider.avatar
+                            ? `<span style="color: white; font-size: 3rem; font-weight: bold;">${initials}</span>`
+                            : ""
+                        }
+                        <div class="provider-availability ${
+                          provider.is_available ? "" : "provider-unavailable"
+                        }">
+                            ${provider.is_available ? "Available Now" : "Busy"}
+                        </div>
+                    </div>
+                    <div class="provider-details">
+                        <div class="provider-header">
+                            <div class="provider-name">${
+                              provider.username || "Service Provider"
+                            }</div>
+                            <div class="provider-rating">
+                                ${starsHTML} <span>${rating.toFixed(1)}</span>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem; height: 60px; overflow: hidden;">
+                            ${
+                              provider.description ||
+                              provider.bio ||
+                              "Professional service provider"
+                            }
+                        </p>
+                        ${
+                          categoriesHTML
+                            ? `<div class="provider-categories">${categoriesHTML}</div>`
+                            : ""
+                        }
+                        <div class="provider-meta">
+                            <div><i class="fas fa-map-marker-alt"></i> ${
+                              provider.location || "Local Area"
+                            }</div>
+                            <div><i class="fas fa-briefcase"></i> ${
+                              provider.experience_years || "1"
+                            }+ yrs</div>
+                        </div>
+                        <div class="provider-price-services">
+                            <div class="provider-price">${priceText}</div>
+                            <div class="provider-services-count">
+                                <i class="fas fa-check-circle"></i> ${servicesCompleted} services
+                            </div>
+                        </div>
+                        <button onclick="showProviderModal(${
+                          provider.id
+                        })">Book Now</button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Function to create single top provider item for hero section
+      function createTopProviderSingle(provider) {
+        const initials = provider.username
+          ? provider.username
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()
+              .substring(0, 2)
+          : "LS";
+
+        // Get first category or default
+        let firstCategory = "Service Provider";
+        if (provider.categories) {
+          if (
+            Array.isArray(provider.categories) &&
+            provider.categories.length > 0
+          ) {
+            firstCategory = provider.categories[0];
+          } else if (typeof provider.categories === "string") {
+            firstCategory = provider.categories;
+          }
+        }
+
+        const rating = provider.rating || 4.5;
+        const servicesCompleted = provider.completed_bookings_count || 0;
+
+        return `
+                <div class="hero-provider-single">
+                    <div class="hero-provider-avatar" style="${
+                      provider.avatar
+                        ? `background-image: url('${provider.avatar}')`
+                        : "background-color: var(--light-blue)"
+                    }">
+                        ${!provider.avatar ? initials : ""}
+                    </div>
+                    <div class="hero-provider-info">
+                        <div class="hero-provider-name">${
+                          provider.username || "Service Provider"
+                        }</div>
+                        <div class="hero-provider-category">${firstCategory}</div>
+                        <div class="hero-provider-rating">
+                            <i class="fas fa-star"></i> ${rating.toFixed(
+                              1,
+                            )} • ${servicesCompleted} services completed
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Function to load providers into the UI with auto-scroll
+      async function loadProviders() {
+        const params = { ...currentFilters };
+
+        if (currentSearchTerm) {
+          params.search = currentSearchTerm;
+        }
+
+        const providers = await fetchServiceProviders(params);
+        allProviders = providers;
+
+        // Clear existing content
+        providersContainer.innerHTML = "";
+
+        if (!providers || providers.length === 0) {
+          providersContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-light);"></i>
+                        <h3>No service providers found</h3>
+                        <p>Try adjusting your search criteria or browse by category</p>
+                    </div>
+                `;
+        } else {
+          // Duplicate providers for continuous scroll, build all cards at once (no flickering)
+          const providersToShow = [...providers, ...providers];
+          providersContainer.innerHTML = providersToShow
+            .map((provider) => createProviderCard(provider))
+            .join("");
+        }
+
+        // Start animation after loading
+        providersContainer.classList.add("loaded");
+
+        // Load top single provider in hero section
+        loadTopProviderSingle();
+      }
+
+      // Function to load single top provider in hero section
+      function loadTopProviderSingle() {
+        topProviderSingle.innerHTML = "";
+
+        if (!allProviders || allProviders.length === 0) {
+          // Show default provider when no data
+          const defaultProvider = {
+            username: "Expert Electrician",
+            rating: 4.8,
+            categories: ["ELECTRICAL"],
+            avatar: "",
+            services_completed: "150",
+          };
+
+          topProviderSingle.innerHTML =
+            createTopProviderSingle(defaultProvider);
+        } else {
+          // Show only first provider
+          const topProvider = allProviders[0];
+          topProviderSingle.innerHTML = createTopProviderSingle(topProvider);
+        }
+      }
+
+      // Function to show provider modal
+      function showProviderModal(providerId) {
+        // Find the provider by ID
+        selectedProvider = allProviders.find((p) => p.id === providerId);
+
+        if (!selectedProvider) {
+          alert("Provider not found");
+          return;
+        }
+
+        // Generate initials for avatar
+        const initials = selectedProvider.username
+          ? selectedProvider.username
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()
+              .substring(0, 2)
+          : "LS";
+
+        // Generate star rating HTML
+        const rating = selectedProvider.rating || 0;
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 >= 0.5;
+        let starsHTML = "";
+
+        for (let i = 1; i <= 5; i++) {
+          if (i <= fullStars) {
+            starsHTML += '<i class="fas fa-star"></i>';
+          } else if (i === fullStars + 1 && hasHalfStar) {
+            starsHTML += '<i class="fas fa-star-half-alt"></i>';
+          } else {
+            starsHTML += '<i class="far fa-star"></i>';
+          }
+        }
+
+        // Format categories
+        let categoriesHTML = "";
+        if (selectedProvider.categories) {
+          if (Array.isArray(selectedProvider.categories)) {
+            categoriesHTML = selectedProvider.categories
+              .map((cat) => `<span class="category-tag">${cat}</span>`)
+              .join("");
+          } else if (typeof selectedProvider.categories === "string") {
+            try {
+              const categoriesArray = JSON.parse(selectedProvider.categories);
+              if (Array.isArray(categoriesArray)) {
+                categoriesHTML = categoriesArray
+                  .map((cat) => `<span class="category-tag">${cat}</span>`)
+                  .join("");
+              } else {
+                categoriesHTML = `<span class="category-tag">${selectedProvider.categories}</span>`;
+              }
+            } catch {
+              categoriesHTML = `<span class="category-tag">${selectedProvider.categories}</span>`;
+            }
+          }
+        }
+
+        // Format price - Dynamic from API
+        const price = selectedProvider.base_price || "50";
+        const pricingType = selectedProvider.pricing_type || "FLEXIBLE";
+        const priceText =
+          pricingType === "FIXED" ? `₹${price}` : `₹${price}/hr`;
+
+        // Services completed count - Dynamic from API
+        const servicesCompleted = selectedProvider.services_completed || "0";
+        const experienceYears = selectedProvider.experience_years || "1";
+
+        // Build modal content
+        modalBody.innerHTML = `
+                <div class="modal-provider-header">
+                    <div class="modal-provider-avatar" style="${
+                      selectedProvider.avatar
+                        ? `background-image: url('${selectedProvider.avatar}')`
+                        : "background-color: var(--light-blue)"
+                    }">
+                        ${!selectedProvider.avatar ? initials : ""}
+                    </div>
+                    <div class="modal-provider-main-info">
+                        <h2 class="modal-provider-name">${
+                          selectedProvider.username || "Service Provider"
+                        }</h2>
+                        <div class="modal-provider-rating">
+                            ${starsHTML} <span>${rating.toFixed(
+                              1,
+                            )} (${selectedProvider.total_reviews || "0"} reviews)</span>
+                        </div>
+                        <div class="modal-provider-location">
+                            <i class="fas fa-map-marker-alt"></i> ${
+                              selectedProvider.location || "Local Area"
+                            }
+                        </div>
+                        <div class="modal-provider-stats">
+                            <div class="modal-stat-item">
+                                <div class="modal-stat-label">Experience</div>
+                                <div class="modal-stat-value">${experienceYears}+ years</div>
+                            </div>
+                            <div class="modal-stat-item">
+                                <div class="modal-stat-label">Services Completed</div>
+                                <div class="modal-stat-value">${servicesCompleted}</div>
+                            </div>
+                            <div class="modal-stat-item">
+                                <div class="modal-stat-label">Service Radius</div>
+                                <div class="modal-stat-value">3-5 kms</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-provider-details">
+                    <p class="modal-provider-bio">${
+                      selectedProvider.description ||
+                      selectedProvider.bio ||
+                      "Professional service provider with extensive experience in delivering quality services. Committed to customer satisfaction and timely completion of all projects."
+                    }</p>
+                    
+                    <div class="modal-details-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Availability</div>
+                            <div class="detail-value">${
+                              selectedProvider.availability ||
+                              "Mon-Sat: 9AM-7PM"
+                            }</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Service Radius</div>
+                            <div class="detail-value">3-5 kms</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value" style="color: ${
+                              selectedProvider.is_available
+                                ? "var(--green)"
+                                : "#f44336"
+                            }">
+                                ${
+                                  selectedProvider.is_available
+                                    ? "Available Now"
+                                    : "Currently Busy"
+                                }
+                            </div>
+                        </div>
+                        ${
+                          selectedProvider.phone
+                            ? `
+                        <div class="detail-item">
+                            <div class="detail-label">Contact</div>
+                            <div class="detail-value">${selectedProvider.phone}</div>
+                        </div>
+                        `
+                            : ""
+                        }
+                        ${
+                          selectedProvider.email
+                            ? `
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${selectedProvider.email}</div>
+                        </div>
+                        `
+                            : ""
+                        }
+                        <div class="detail-item">
+                            <div class="detail-label">Pricing Type</div>
+                            <div class="detail-value">${
+                              pricingType === "FIXED"
+                                ? "Fixed Price"
+                                : "Hourly Rate"
+                            }</div>
+                        </div>
+                    </div>
+                    
+                    ${
+                      categoriesHTML
+                        ? `
+                    <div class="modal-categories">
+                        <h4>Service Categories</h4>
+                        <div class="provider-categories">
+                            ${categoriesHTML}
+                        </div>
+                    </div>
+                    `
+                        : ""
+                    }
+                    
+                    ${
+                      selectedProvider.service_locations
+                        ? `
+                    <div class="detail-item" style="grid-column: 1 / -1; margin-top: 1rem;">
+                        <div class="detail-label">Service Locations</div>
+                        <div class="detail-value">${
+                          Array.isArray(selectedProvider.service_locations)
+                            ? selectedProvider.service_locations.join(", ")
+                            : selectedProvider.service_locations
+                        }</div>
+                    </div>
+                    `
+                        : ""
+                    }
+                </div>
+            `;
+
+        // Update modal price
+        modalPrice.textContent = `₹${price}`;
+        modalPriceType.textContent = pricingType === "FIXED" ? "" : "/hr";
+
+        // Show the modal
+        providerModal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+
+      // Function to close modal
+      function closeModal() {
+        providerModal.style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+
+      // Video carousel functions - Fixed to play all videos
+      function startVideoCarousel() {
+        // Initially, only play the first video
+        videoElements.forEach((video, index) => {
+          if (index === 0) {
+            video.play().catch((e) => console.log("Video play error:", e));
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+
+        // Change video every 5 seconds (5000ms)
+        videoInterval = setInterval(nextVideo, 5000);
+      }
+
+      function nextVideo() {
+        // Pause current video and reset it
+        const currentVideo = videoElements[currentVideoIndex];
+        currentVideo.pause();
+        currentVideo.currentTime = 0;
+
+        // Hide current slide
+        videoSlides[currentVideoIndex].classList.remove("active");
+        videoDots[currentVideoIndex].classList.remove("active");
+
+        // Move to next video
+        currentVideoIndex = (currentVideoIndex + 1) % totalVideos;
+
+        // Show next slide and play its video
+        videoSlides[currentVideoIndex].classList.add("active");
+        videoDots[currentVideoIndex].classList.add("active");
+
+        const nextVideo = videoElements[currentVideoIndex];
+        nextVideo.play().catch((e) => console.log("Video play error:", e));
+      }
+
+      function goToVideo(index) {
+        // Pause current video and reset it
+        const currentVideo = videoElements[currentVideoIndex];
+        currentVideo.pause();
+        currentVideo.currentTime = 0;
+
+        // Hide current slide
+        videoSlides[currentVideoIndex].classList.remove("active");
+        videoDots[currentVideoIndex].classList.remove("active");
+
+        // Set new index
+        currentVideoIndex = index;
+
+        // Show selected slide and play its video
+        videoSlides[currentVideoIndex].classList.add("active");
+        videoDots[currentVideoIndex].classList.add("active");
+
+        const selectedVideo = videoElements[currentVideoIndex];
+        selectedVideo.play().catch((e) => console.log("Video play error:", e));
+
+        // Restart interval
+        clearInterval(videoInterval);
+        startVideoCarousel();
+      }
+
+      // Theme toggle functions
+      function toggleTheme() {
+        isDarkMode = !isDarkMode;
+
+        if (isDarkMode) {
+          document.body.classList.add("dark-mode");
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+          themeToggle.setAttribute("title", "Switch to Light Mode");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.body.classList.remove("dark-mode");
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+          themeToggle.setAttribute("title", "Switch to Dark Mode");
+          localStorage.setItem("theme", "light");
+        }
+      }
+
+      function loadTheme() {
+        const savedTheme = localStorage.getItem("theme");
+
+        if (savedTheme === "dark") {
+          isDarkMode = true;
+          document.body.classList.add("dark-mode");
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+          themeToggle.setAttribute("title", "Switch to Light Mode");
+        } else {
+          isDarkMode = false;
+          document.body.classList.remove("dark-mode");
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+          themeToggle.setAttribute("title", "Switch to Dark Mode");
+        }
+      }
+
+      // Function to handle category filter — filters allProviders client-side, no re-fetch
+      function handleCategoryFilter(category) {
+        // Highlight the clicked item
+        categoryItems.forEach((item) => item.classList.remove("active"));
+        const clicked = Array.from(categoryItems).find(
+          (item) => item.getAttribute("data-category") === category
+        );
+        if (clicked) clicked.classList.add("active");
+
+        // Filter the already-loaded providers array
+        const filtered = category
+          ? allProviders.filter((p) => {
+              const cats = p.categories || [];
+              return cats.some(
+                (c) => c.toLowerCase() === category.toLowerCase()
+              );
+            })
+          : allProviders;
+
+        // Rebuild cards without re-fetching
+        if (!filtered || filtered.length === 0) {
+          providersContainer.innerHTML = `
+            <div class="no-results">
+              <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-light);"></i>
+              <h3>No providers found for "${category}"</h3>
+              <p>Try a different category</p>
+            </div>`;
+        } else {
+          const toShow = [...filtered, ...filtered];
+          providersContainer.innerHTML = toShow
+            .map((p) => createProviderCard(p))
+            .join("");
+        }
+
+        // Scroll to providers section
+        document
+          .getElementById("find-service")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Initialize page when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load theme preference
+        loadTheme();
+
+        // Load all providers initially
+        loadProviders();
+
+        // Setup video carousel
+        startVideoCarousel();
+
+        // Setup video dot click events
+        videoDots.forEach((dot, index) => {
+          dot.addEventListener("click", () => goToVideo(index));
+        });
+
+        // Setup theme toggle
+        themeToggle.addEventListener("click", toggleTheme);
+
+        // Setup category filter event listeners
+        categoryItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
+            handleCategoryFilter(category);
+          });
+        });
+
+        // Setup modal event listeners
+        closeModalBtn.addEventListener("click", closeModal);
+        modalCloseBtn.addEventListener("click", closeModal);
+
+        // Close modal when clicking outside
+        providerModal.addEventListener("click", function (e) {
+          if (e.target === providerModal) {
+            closeModal();
+          }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && providerModal.style.display === "flex") {
+            closeModal();
+          }
+        });
+      });
+
+      // Clean up intervals when page is unloaded
+      window.addEventListener("beforeunload", function () {
+        clearInterval(videoInterval);
+      });
+    </script>
   </body>
 </html>
