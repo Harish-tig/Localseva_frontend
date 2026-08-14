@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalSeva - Sign Up</title>
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, var(--primary-light), var(--bg));
+        padding: var(--space-4);
+      }
+      
+      .auth-card {
+        width: 100%;
+        max-width: 480px;
+        background: var(--surface);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        overflow: hidden;
+      }
+      
+      .auth-header {
+        text-align: center;
+        padding: var(--space-6) var(--space-6) var(--space-4);
+      }
+      
+      .auth-logo {
+        font-size: var(--font-size-2xl);
+        font-weight: 800;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-2);
+        text-decoration: none;
+      }
+      
+      .auth-subtitle {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+      }
+      
+      .auth-body {
+        padding: 0 var(--space-6) var(--space-6);
+      }
+      
+      .auth-footer {
+        text-align: center;
+        padding: var(--space-4);
+        background: var(--bg-alt);
+        border-top: 1px solid var(--border);
+        font-size: var(--font-size-sm);
+      }
+      
+      .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+      }
+      
+      .checkbox-group input {
+        margin-top: 4px;
+        cursor: pointer;
+      }
+      
+      .checkbox-group label {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="auth-card animate-fade-in">
+      <div class="auth-header">
+        <a href="index.html" class="auth-logo">
+          <i class="fas fa-hands-helping"></i> LocalSeva
+        </a>
+        <p class="auth-subtitle">Create your account to get started.</p>
+      </div>
+      
+      <div class="auth-body">
+        <form id="signupForm">
+          <div class="form-group">
+            <label class="form-label required" for="username">Username</label>
+            <div style="position: relative;">
+              <i class="fas fa-user" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+              <input type="text" id="username" class="form-control" style="padding-left: 2.5rem;" placeholder="Choose a username" required />
+            </div>
+            <small class="form-text">This will be your public display name.</small>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label required" for="email">Email Address</label>
+            <div style="position: relative;">
+              <i class="fas fa-envelope" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+              <input type="email" id="email" class="form-control" style="padding-left: 2.5rem;" placeholder="your@email.com" required />
+            </div>
+          </div>
+          
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+            <div class="form-group">
+              <label class="form-label required" for="password">Password</label>
+              <div style="position: relative;">
+                <i class="fas fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                <input type="password" id="password" class="form-control" style="padding-left: 2.5rem;" placeholder="••••••••" required />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label required" for="confirmPassword">Confirm</label>
+              <div style="position: relative;">
+                <i class="fas fa-check-circle" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                <input type="password" id="confirmPassword" class="form-control" style="padding-left: 2.5rem;" placeholder="••••••••" required />
+              </div>
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="terms" required />
+            <label for="terms">I agree to the <a href="javascript:void(0)" onclick="openModal('termsModal')">Terms of Service</a> and <a href="javascript:void(0)" onclick="openModal('privacyModal')">Privacy Policy</a>.</label>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">
+            Create Account <i class="fas fa-user-plus ml-2"></i>
+          </button>
+        </form>
+      </div>
+      
+      <div class="auth-footer">
+        Already have an account? <a href="index.html">Log in here</a>
+      </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Terms of Service</h3>
+          <button type="button" class="modal-close" onclick="closeModal('termsModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" style="max-height: 60vh; overflow-y: auto; font-size: var(--font-size-sm); line-height: 1.6; text-align: left;">
+          <h4 style="margin-top: 0; color: var(--primary);">1. Acceptance of Terms</h4>
+          <p>Welcome to LocalSeva. By accessing or using our platform, you agree to comply with and be bound by these Terms of Service. Please review them carefully.</p>
+          
+          <h4 style="color: var(--primary);">2. Services Provided</h4>
+          <p>LocalSeva is a platform facilitating connections between service seekers and independent service providers. We do not employ service providers, nor are we responsible for their performance.</p>
+          
+          <h4 style="color: var(--primary);">3. User Conduct</h4>
+          <p>Users must provide accurate registration details, respect other community members, and refrain from any fraudulent activities or misuse of the platform.</p>
+          
+          <h4 style="color: var(--primary);">4. Limitation of Liability</h4>
+          <p>LocalSeva is provided "as is". We are not liable for any direct, indirect, incidental, or consequential damages resulting from your use of the platform.</p>
+          
+          <h4 style="color: var(--primary);">5. Changes to Terms</h4>
+          <p>We reserve the right to modify these terms at any time. Continued use of the service constitutes acceptance of any updates.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('termsModal')">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Privacy Policy</h3>
+          <button type="button" class="modal-close" onclick="closeModal('privacyModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" style="max-height: 60vh; overflow-y: auto; font-size: var(--font-size-sm); line-height: 1.6; text-align: left;">
+          <h4 style="margin-top: 0; color: var(--primary);">1. Information We Collect</h4>
+          <p>We collect personal information such as your name, email, phone number, and location when you register and create a profile on LocalSeva.</p>
+          
+          <h4 style="color: var(--primary);">2. How We Use Information</h4>
+          <p>Your data is used to match you with service providers, process transactions, facilitate communication, and improve our services.</p>
+          
+          <h4 style="color: var(--primary);">3. Data Sharing</h4>
+          <p>We do not sell your personal data. We only share details necessary for service provision (e.g., sharing a contact number between client and service provider).</p>
+          
+          <h4 style="color: var(--primary);">4. Data Security</h4>
+          <p>We implement industry-standard security measures to safeguard your information. However, no electronic transmission over the internet can be guaranteed to be 100% secure.</p>
+          
+          <h4 style="color: var(--primary);">5. Your Rights</h4>
+          <p>You have the right to access, update, or request deletion of your personal data at any time through your profile settings.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('privacyModal')">Close</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalSeva - Dashboard</title>
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+      .dashboard-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+      
+      .list-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+        box-shadow: var(--shadow-sm);
+      }
+      
+      @media (min-width: 768px) {
+        .list-item {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+      
+      .list-item-main {
+        flex: 1;
+      }
+      
+      .list-item-title {
+        font-weight: 600;
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--space-1);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+      
+      .list-item-meta {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+      
+      .list-item-meta span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      
+      .list-item-meta i {
+        color: var(--primary);
+      }
+      
+      .list-item-actions {
+        display: flex;
+        gap: var(--space-2);
+        flex-wrap: wrap;
+      }
+      
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: var(--radius);
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .status-pending { background: var(--warning-light); color: var(--warning); }
+      .status-accepted { background: var(--info-light); color: var(--info); }
+      .status-in-progress { background: var(--primary-light); color: var(--primary); }
+      .status-completed { background: var(--success-light); color: var(--success); }
+      .status-cancelled { background: var(--danger-light); color: var(--danger); }
+      .status-rejected { background: var(--gray-200); color: var(--gray-700); }
+    </style>
+  </head>
+  <body>
+    
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="home.html" class="logo">
+            <i class="fas fa-hands-helping"></i> LocalSeva
+          </a>
+          <div class="user-greeting mt-1">Hello, <strong id="userName">User</strong></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="services.html"><i class="fas fa-wrench"></i> Find Services</a>
+          <a href="mart.html"><i class="fas fa-store"></i> Marketplace</a>
+          <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="btn btn-outline btn-block logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="page-header">
+          <div class="flex items-center gap-4">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1>My Dashboard</h1>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+          </div>
+        </header>
+        
+        <div class="page-body">
+          <div class="tabs-container">
+            <!-- Tabs Nav -->
+            <div class="tabs-nav">
+              <button class="tab-btn active" data-target="#tab-bookings">My Bookings</button>
+              <button class="tab-btn" data-target="#tab-requests" id="tab-requests-btn" style="display: none;">Service Requests</button>
+              <button class="tab-btn" data-target="#tab-listings">Marketplace Listings</button>
+            </div>
+            
+            <!-- Tab: My Bookings (Services I requested) -->
+            <div class="tab-pane active" id="tab-bookings">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Services I Requested</h3>
+                <select id="bookingStatusFilter" class="form-control" style="width: auto;">
+                  <option value="">All Statuses</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="ACCEPTED">Accepted</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="COMPLETED">Completed</option>
+                </select>
+              </div>
+              <div id="bookingsList" class="dashboard-list animate-fade-in">
+                <div class="loading-skeleton" style="height: 100px;"></div>
+                <div class="loading-skeleton" style="height: 100px;"></div>
+              </div>
+            </div>
+            
+            <!-- Tab: Service Requests (Jobs I provide) -->
+            <div class="tab-pane" id="tab-requests">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Job Requests Received</h3>
+                <select id="requestStatusFilter" class="form-control" style="width: auto;">
+                  <option value="">All Statuses</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="ACCEPTED">Accepted</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="COMPLETED">Completed</option>
+                </select>
+              </div>
+              <div id="requestsList" class="dashboard-list animate-fade-in">
+                <!-- Content injected by JS -->
+              </div>
+            </div>
+            
+            <!-- Tab: Marketplace Listings -->
+            <div class="tab-pane" id="tab-listings">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">My Items for Sale</h3>
+                <a href="mart.html" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Item</a>
+              </div>
+              <div id="listingsList" class="dashboard-list animate-fade-in">
+                <!-- Content injected by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <a href="services.html"><i class="fas fa-wrench"></i><span>Services</span></a>
+        <a href="mart.html"><i class="fas fa-store"></i><span>Mart</span></a>
+        <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i><span>Dash</span></a>
+        <a href="profile.html"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+      </nav>
+    </div>
+    
+    <!-- Modals for actions -->
+    
+    <!-- Notes Update Modal -->
+    <div class="modal-overlay" id="notesModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Update Notes</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="notesForm">
+            <input type="hidden" id="notesBookingId">
+            <input type="hidden" id="notesUserType"> <!-- 'user' or 'provider' -->
+            <div class="form-group">
+              <label class="form-label required" for="notesText">Notes</label>
+              <textarea class="form-control" id="notesText" rows="4" required></textarea>
+            </div>
+            <div class="flex justify-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="saveNotesBtn">Save Notes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Complete Job Modal -->
+    <div class="modal-overlay" id="completeJobModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Complete Job</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="completeJobForm">
+            <input type="hidden" id="completeBookingId">
+            <div class="form-group">
+              <label class="form-label required" for="finalPrice">Final Price (₹)</label>
+              <input type="number" class="form-control" id="finalPrice" min="0" required>
+            </div>
+            <div class="flex justify-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="btn btn-success" id="confirmCompleteBtn">Mark Completed</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

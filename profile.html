@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalSeva - My Profile</title>
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+      .profile-header-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--space-6);
+        text-align: center;
+      }
+      
+      .avatar-upload {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto var(--space-4);
+        cursor: pointer;
+      }
+      
+      .avatar-preview {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        background: var(--bg-alt);
+        border: 4px solid var(--primary-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: var(--primary);
+        overflow: hidden;
+        transition: opacity var(--transition-base, 0.2s);
+      }
+      
+      .avatar-edit-icon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: var(--primary);
+        color: #ffffff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--surface);
+        box-shadow: var(--shadow-sm);
+        transition: transform var(--transition-base, 0.2s);
+      }
+      
+      .avatar-upload:hover .avatar-edit-icon {
+        transform: scale(1.1);
+      }
+      
+      .avatar-upload:hover .avatar-preview {
+        opacity: 0.9;
+      }
+      
+      .profile-info h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-1);
+      }
+      
+      .profile-info p {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--space-4);
+      }
+      
+      .settings-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--space-6);
+      }
+      
+      .settings-section h3 {
+        margin-bottom: var(--space-4);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid var(--border);
+        font-size: var(--font-size-lg);
+      }
+      
+      .provider-toggle-box {
+        background: var(--primary-subtle);
+        border: 1px solid var(--primary-light);
+        border-radius: var(--radius);
+        padding: var(--space-4);
+        margin-bottom: var(--space-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+      
+      @media (min-width: 768px) {
+        .provider-toggle-box {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="home.html" class="logo">
+            <i class="fas fa-hands-helping"></i> LocalSeva
+          </a>
+          <div class="user-greeting mt-1">Hello, <strong id="userName">User</strong></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="services.html"><i class="fas fa-wrench"></i> Find Services</a>
+          <a href="mart.html"><i class="fas fa-store"></i> Marketplace</a>
+          <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <a href="profile.html" class="active"><i class="fas fa-user-circle"></i> Profile</a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="btn btn-outline btn-block logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="page-header">
+          <div class="flex items-center gap-4">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1>My Profile</h1>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+          </div>
+        </header>
+        
+        <div class="page-body">
+          <div id="loadingState" class="animate-fade-in">
+            <div class="loading-skeleton mb-6" style="height: 250px;"></div>
+            <div class="loading-skeleton" style="height: 400px;"></div>
+          </div>
+
+          <div id="profileContent" style="display: none;" class="animate-fade-in max-w-4xl mx-auto">
+            
+            <div class="profile-header-card">
+              <div class="avatar-upload" id="avatarUploadContainer">
+                <div class="avatar-preview" id="avatarPreview">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="avatar-edit-icon">
+                  <i class="fas fa-camera"></i>
+                </div>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;" />
+              </div>
+              <div class="profile-info">
+                <h2 id="displayUsername">User Name</h2>
+                <p id="displayEmail">user@example.com</p>
+                <div id="roleBadgeContainer">
+                  <span class="badge badge-secondary" id="displayRole">Standard User</span>
+                </div>
+              </div>
+            </div>
+            
+            <form id="profileForm">
+              <!-- Basic Info -->
+              <div class="settings-section">
+                <h3><i class="fas fa-user-edit text-primary mr-2"></i> Basic Information</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                  <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="Your contact number">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="location">City/Location</label>
+                    <input type="text" id="location" class="form-control" placeholder="e.g. Kandivali, Mumbai">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="bio">Bio / About Me</label>
+                  <textarea id="bio" class="form-control" rows="3" placeholder="Tell us a little about yourself..."></textarea>
+                </div>
+              </div>
+              
+              <!-- Provider Upgrade Box (Only shown to normal users) -->
+              <div id="providerUpgradeBox" class="provider-toggle-box" style="display: none;">
+                <div>
+                  <h4 class="font-bold text-primary-dark mb-1"><i class="fas fa-briefcase"></i> Become a Service Provider</h4>
+                  <p class="text-sm text-secondary m-0">Start offering your skills and earn money on LocalSeva.</p>
+                </div>
+                <button type="button" id="becomeProviderBtn" class="btn btn-primary whitespace-nowrap">
+                  Enable Provider Mode
+                </button>
+              </div>
+              
+              <!-- Service Provider Details (Hidden for standard users) -->
+              <div id="providerDetailsSection" class="settings-section" style="display: none; border-color: var(--primary);">
+                <h3 style="color: var(--primary);"><i class="fas fa-tools mr-2"></i> Service Provider Details</h3>
+                
+                <div class="form-group mb-4">
+                  <label class="form-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="is_available" style="width: 18px; height: 18px;">
+                    <span class="font-semibold">I am currently available for new jobs</span>
+                  </label>
+                </div>
+
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                  <div class="form-group">
+                    <label class="form-label required" for="experience_years">Years of Experience</label>
+                    <input type="number" id="experience_years" class="form-control" min="0" step="1">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required" for="pricing_type">Pricing Type</label>
+                    <select id="pricing_type" class="form-control">
+                      <option value="FIXED">Fixed Price / Base Charge</option>
+                      <option value="HOURLY">Hourly Rate</option>
+                      <option value="FLEXIBLE">Flexible / Depends on Job</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="base_price">Base Price (₹)</label>
+                  <input type="number" id="base_price" class="form-control" min="0" step="1" placeholder="e.g. 500">
+                  <small class="form-text text-muted">This is shown to users as your starting or visiting charge.</small>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="categories">Service Categories (Comma separated)</label>
+                  <input type="text" id="categories" class="form-control" placeholder="e.g. Plumbing, Electrical, Cleaning">
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="service_locations">Areas Served (Comma separated)</label>
+                  <input type="text" id="service_locations" class="form-control" placeholder="e.g. Kandivali, Borivali, Malad">
+                </div>
+              </div>
+              
+              <div class="flex justify-end pt-4 mb-8">
+                <button type="submit" id="saveProfileBtn" class="btn btn-primary btn-lg">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </main>
+      
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <a href="services.html"><i class="fas fa-wrench"></i><span>Services</span></a>
+        <a href="mart.html"><i class="fas fa-store"></i><span>Mart</span></a>
+        <a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dash</span></a>
+        <a href="profile.html" class="active"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+      </nav>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+  </body>
+</html>

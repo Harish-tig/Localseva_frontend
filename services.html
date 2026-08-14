@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalSeva - Services</title>
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+      .filters-bar {
+        background: var(--surface);
+        padding: var(--space-4);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--space-6);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .search-box {
+        flex: 1;
+        min-width: 250px;
+        position: relative;
+      }
+      
+      .search-box i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+      }
+      
+      .search-box input {
+        padding-left: 2.5rem;
+      }
+      
+      .filter-controls {
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+      }
+      
+      .category-filters {
+        display: flex;
+        gap: var(--space-2);
+        overflow-x: auto;
+        padding-bottom: var(--space-2);
+        scrollbar-width: none;
+      }
+      
+      .category-filters::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .category-filter {
+        padding: var(--space-2) var(--space-4);
+        background: var(--bg-alt);
+        border: 1px solid transparent;
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        color: var(--text-secondary);
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all var(--transition-fast);
+      }
+      
+      .category-filter:hover {
+        background: var(--surface-hover);
+        border-color: var(--border-strong);
+      }
+      
+      .category-filter.active {
+        background: var(--primary);
+        color: white;
+      }
+      
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-6);
+      }
+      
+      /* Card Overrides for Services */
+      .service-description-short {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--space-4);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="home.html" class="logo">
+            <i class="fas fa-hands-helping"></i> LocalSeva
+          </a>
+          <div class="user-greeting mt-1">Hello, <strong id="userName">User</strong></div>
+        </div>
+        
+
+        <nav class="sidebar-nav">
+          <a href="services.html"><i class="fas fa-wrench"></i> Find Services</a>
+          <a href="mart.html"><i class="fas fa-store"></i> Marketplace</a>
+          <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+        </nav>
+        
+        <div class="sidebar-footer">
+          <button class="btn btn-outline btn-block logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="page-header">
+          <div class="flex items-center gap-4">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1>Find Services</h1>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+              <i class="fas fa-moon"></i>
+            </button>
+          </div>
+        </header>
+        
+        <div class="page-body">
+          <!-- Filters Bar -->
+          <div class="filters-bar animate-fade-in">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="servicesSearch" class="form-control" placeholder="Search by name, category, or location...">
+            </div>
+            
+            <div class="filter-controls">
+              <select id="locationFilter" class="form-control" style="min-width: 150px;">
+                <option value="">All Locations</option>
+                <option value="Andheri">Andheri</option>
+                <option value="Bandra">Bandra</option>
+                <option value="Borivali">Borivali</option>
+                <option value="Goregaon">Goregaon</option>
+                <option value="Kandivali">Kandivali</option>
+                <option value="Malad">Malad</option>
+                <option value="Powai">Powai</option>
+                <option value="Thane">Thane</option>
+              </select>
+              
+              <button id="clearFilters" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Clear
+              </button>
+            </div>
+          </div>
+          
+          <!-- Category Pills -->
+          <div class="category-filters animate-fade-in mb-6">
+            <button class="category-filter active" data-category="all">All Services</button>
+            <button class="category-filter" data-category="Cleaning">Cleaning</button>
+            <button class="category-filter" data-category="Electrical">Electrical</button>
+            <button class="category-filter" data-category="Plumbing">Plumbing</button>
+            <button class="category-filter" data-category="Carpentry">Carpentry</button>
+            <button class="category-filter" data-category="Ceramic">Ceramic</button>
+            <button class="category-filter" data-category="Fitness">Fitness</button>
+            <button class="category-filter" data-category="Education">Education</button>
+            <button class="category-filter" data-category="Delivery">Delivery</button>
+          </div>
+          
+          <!-- Services Grid -->
+          <div id="servicesContainer" class="services-grid">
+            <!-- Skeletons will be injected here by JS, then cards -->
+          </div>
+        </div>
+      </main>
+      
+      <!-- Bottom Navigation for Mobile -->
+      <nav class="bottom-nav">
+        <a href="services.html"><i class="fas fa-wrench"></i><span>Services</span></a>
+        <a href="mart.html"><i class="fas fa-store"></i><span>Mart</span></a>
+        <a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dash</span></a>
+        <a href="profile.html"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+      </nav>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/services.js"></script>
+  </body>
+</html>

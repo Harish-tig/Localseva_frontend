@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalSeva - Service Details</title>
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    
+    <style>
+      .profile-header {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        border: 1px solid var(--border);
+      }
+      
+      @media (min-width: 768px) {
+        .profile-header {
+          flex-direction: row;
+          align-items: flex-start;
+        }
+      }
+      
+      .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--primary-subtle);
+        background-color: var(--bg-alt);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+      
+      .profile-info {
+        flex: 1;
+      }
+      
+      .profile-name {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-2);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+      
+      .profile-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+        color: var(--text-secondary);
+      }
+      
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+      
+      .stat-item i {
+        color: var(--primary);
+      }
+      
+      .profile-actions {
+        display: flex;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+      }
+      
+      .service-details-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      
+      @media (min-width: 992px) {
+        .service-details-grid {
+          grid-template-columns: 2fr 1fr;
+        }
+      }
+      
+      .content-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+      }
+      
+      .content-card h3 {
+        margin-bottom: var(--space-4);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .reviews-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+      
+      .review-item {
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .review-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: var(--space-2);
+      }
+      
+      .review-author {
+        font-weight: 600;
+      }
+      
+      .review-rating {
+        color: var(--warning);
+      }
+      
+      .review-date {
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+      }
+      
+      .info-list {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .info-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--space-3) 0;
+        border-bottom: 1px dashed var(--border);
+      }
+      
+      .info-list li:last-child {
+        border-bottom: none;
+      }
+      
+      .info-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      
+      .info-value {
+        font-weight: 600;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="home.html" class="logo">
+            <i class="fas fa-hands-helping"></i> LocalSeva
+          </a>
+          <div class="user-greeting mt-1">Hello, <strong id="userName">User</strong></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="services.html" class="active"><i class="fas fa-wrench"></i> Find Services</a>
+          <a href="mart.html"><i class="fas fa-store"></i> Marketplace</a>
+          <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="btn btn-outline btn-block logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="page-header">
+          <div class="flex items-center gap-4">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+            <button class="btn btn-secondary btn-icon" onclick="window.history.back()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Provider Profile</h1>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+          </div>
+        </header>
+        
+        <div class="page-body">
+          <div id="loadingState" class="animate-fade-in">
+            <div class="loading-skeleton mb-6" style="height: 200px;"></div>
+            <div class="service-details-grid">
+              <div class="loading-skeleton" style="height: 400px;"></div>
+              <div class="loading-skeleton" style="height: 400px;"></div>
+            </div>
+          </div>
+
+          <div id="providerContent" style="display: none;" class="animate-fade-in">
+            <!-- Profile Header -->
+            <div class="profile-header">
+              <div id="providerAvatar" class="profile-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="profile-info">
+                <h2 class="profile-name">
+                  <span id="providerName">Provider Name</span>
+                  <span id="providerStatus" class="badge">Status</span>
+                </h2>
+                
+                <div class="profile-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-star text-warning"></i>
+                    <span id="providerRating">0.0 (0 reviews)</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span id="providerExperience">0 years exp.</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <span id="providerCompleted">0 jobs done</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt text-danger"></i>
+                    <span id="providerLocation">Location</span>
+                  </div>
+                </div>
+                
+                <div class="profile-actions">
+                  <button id="bookServiceBtn" class="btn btn-primary">
+                    <i class="fas fa-calendar-check"></i> Book Service
+                  </button>
+                  <button id="contactProviderBtn" class="btn btn-outline">
+                    <i class="fas fa-envelope"></i> Contact
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="service-details-grid">
+              <!-- Left Column -->
+              <div class="flex-col gap-6">
+                <!-- About -->
+                <div class="content-card">
+                  <h3><i class="fas fa-user-circle text-primary mr-2"></i> About Provider</h3>
+                  <p id="providerBio" style="white-space: pre-line;">No description provided.</p>
+                </div>
+                
+                <!-- Reviews -->
+                <div class="content-card">
+                  <div class="flex justify-between items-center mb-4 pb-3" style="border-bottom: 1px solid var(--border);">
+                    <h3 style="margin: 0; border: none; padding: 0;">
+                      <i class="fas fa-comments text-primary mr-2"></i> Reviews (<span id="reviewCountHeader">0</span>)
+                    </h3>
+                    <button id="writeReviewBtn" class="btn btn-secondary btn-sm" style="display: none;">
+                      <i class="fas fa-pen"></i> Write Review
+                    </button>
+                  </div>
+                  <div id="reviewsList" class="reviews-list">
+                    <div class="text-muted text-center py-4">Loading reviews...</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Right Column -->
+              <div class="flex-col gap-6">
+                <!-- Service Info -->
+                <div class="content-card">
+                  <h3><i class="fas fa-info-circle text-primary mr-2"></i> Service Details</h3>
+                  <ul class="info-list">
+                    <li>
+                      <span class="info-label">Base Price</span>
+                      <span class="info-value text-primary" id="providerPrice">₹0</span>
+                    </li>
+                    <li>
+                      <span class="info-label">Pricing Type</span>
+                      <span class="info-value" id="providerPricingType">Fixed</span>
+                    </li>
+                    <li>
+                      <span class="info-label">Categories</span>
+                      <span class="info-value" id="providerCategories">General</span>
+                    </li>
+                    <li>
+                      <span class="info-label">Service Areas</span>
+                      <span class="info-value" id="providerServiceAreas">All</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <!-- Bottom Navigation for Mobile -->
+      <nav class="bottom-nav">
+        <a href="services.html" class="active"><i class="fas fa-wrench"></i><span>Services</span></a>
+        <a href="mart.html"><i class="fas fa-store"></i><span>Mart</span></a>
+        <a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dash</span></a>
+        <a href="profile.html"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+      </nav>
+    </div>
+    
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="bookingModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Book Service</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="bookingForm">
+            <div class="form-group">
+              <label class="form-label required" for="service_category">Service Category</label>
+              <select class="form-control" id="service_category" required>
+                <option value="">Select a category</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label required" for="scheduled_date">Preferred Date & Time</label>
+              <input type="datetime-local" class="form-control" id="scheduled_date" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label required" for="address">Service Address</label>
+              <textarea class="form-control" id="address" placeholder="Enter your full address" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label required" for="description">Issue Description</label>
+              <textarea class="form-control" id="description" placeholder="Describe the problem or what you need done..." rows="4" required></textarea>
+            </div>
+            
+            <div class="flex gap-2 justify-end mt-6">
+              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="submitBookingBtn">Confirm Booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Review Modal -->
+    <div class="modal-overlay" id="reviewModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Write a Review</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="reviewForm">
+            <div class="form-group">
+              <label class="form-label required" for="review_booking">Select Completed Booking</label>
+              <select class="form-control" id="review_booking" required>
+                <option value="">Select booking</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label required" for="review_rating">Rating (1-5)</label>
+              <select class="form-control" id="review_rating" required>
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Good</option>
+                <option value="3">3 - Average</option>
+                <option value="2">2 - Poor</option>
+                <option value="1">1 - Terrible</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label required" for="review_comment">Your Review</label>
+              <textarea class="form-control" id="review_comment" placeholder="Share your experience..." rows="4" required></textarea>
+            </div>
+            
+            <div class="flex gap-2 justify-end mt-6">
+              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/service-detail.js"></script>
+  </body>
+</html>

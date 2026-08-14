@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalSeva - Item Details</title>
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    
+    <style>
+      .product-header {
+        margin-bottom: var(--space-6);
+      }
+      
+      .product-title {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-2);
+        color: var(--text);
+      }
+      
+      .product-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+      }
+      
+      .product-meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+      
+      .product-meta-item i {
+        color: var(--primary);
+      }
+      
+      .product-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      
+      @media (min-width: 992px) {
+        .product-layout {
+          grid-template-columns: 2fr 1fr;
+        }
+      }
+      
+      /* Image Gallery */
+      .product-gallery {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+      }
+      
+      .main-image-container {
+        width: 100%;
+        padding-top: 66.66%; /* 3:2 Aspect Ratio */
+        position: relative;
+        background-color: var(--bg-alt);
+      }
+      
+      .main-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      
+      /* Info Cards */
+      .info-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--space-6);
+      }
+      
+      .info-card h3 {
+        margin-bottom: var(--space-4);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+      
+      .price-tag {
+        font-size: var(--font-size-3xl);
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: var(--space-4);
+      }
+      
+      .seller-profile {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+      }
+      
+      .seller-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+      
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+      }
+      
+      .contact-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: var(--space-3);
+        border-radius: var(--radius);
+        font-weight: 500;
+        text-decoration: none;
+        transition: all var(--transition-fast);
+      }
+      
+      .btn-whatsapp {
+        background-color: #25D366;
+        color: white;
+      }
+      .btn-whatsapp:hover { background-color: #128C7E; color: white; }
+      
+      .btn-phone {
+        background-color: var(--primary);
+        color: white;
+      }
+      .btn-phone:hover { background-color: var(--primary-hover); color: white; }
+      
+      .btn-email {
+        background-color: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border-strong);
+      }
+      .btn-email:hover { border-color: var(--primary); color: var(--primary); }
+
+      /* Details List */
+      .details-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+      }
+      
+      .detail-item {
+        flex: 1 1 calc(50% - var(--space-4));
+        min-width: 140px;
+      }
+      
+      .detail-label {
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+      }
+      
+      .detail-value {
+        font-weight: 600;
+        color: var(--text);
+      }
+      
+      /* Comments */
+      .comment-box {
+        display: flex;
+        gap: var(--space-4);
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--border);
+        margin-bottom: var(--space-4);
+      }
+      
+      .comment-box:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+      
+      .comment-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg-alt);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+      }
+      
+      .comment-content {
+        flex: 1;
+      }
+      
+      .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: var(--space-1);
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="home.html" class="logo">
+            <i class="fas fa-hands-helping"></i> LocalSeva
+          </a>
+          <div class="user-greeting mt-1">Hello, <strong id="userName">User</strong></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="services.html"><i class="fas fa-wrench"></i> Find Services</a>
+          <a href="mart.html" class="active"><i class="fas fa-store"></i> Marketplace</a>
+          <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="btn btn-outline btn-block logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="page-header">
+          <div class="flex items-center gap-4">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+            <button class="btn btn-secondary btn-icon" onclick="window.history.back()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Item Details</h1>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+          </div>
+        </header>
+        
+        <div class="page-body">
+          <div id="loadingState" class="animate-fade-in">
+            <div class="loading-skeleton mb-4" style="height: 40px; width: 60%;"></div>
+            <div class="loading-skeleton mb-6" style="height: 20px; width: 40%;"></div>
+            <div class="product-layout">
+              <div class="loading-skeleton" style="height: 500px;"></div>
+              <div class="loading-skeleton" style="height: 500px;"></div>
+            </div>
+          </div>
+
+          <div id="productContent" style="display: none;" class="animate-fade-in">
+            <!-- Header -->
+            <div class="product-header">
+              <h2 class="product-title" id="productTitle">Product Title</h2>
+              <div class="product-meta">
+                <div class="product-meta-item">
+                  <i class="fas fa-clock"></i> <span id="productDate">Posted Date</span>
+                </div>
+                <div class="product-meta-item">
+                  <i class="fas fa-eye"></i> <span id="productViews">0 views</span>
+                </div>
+                <div id="statusBadgeContainer">
+                  <span class="badge badge-success" id="productStatus">Available</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-layout">
+              <!-- Left Column: Image & Details -->
+              <div class="flex-col gap-6">
+                <div class="product-gallery">
+                  <div class="main-image-container">
+                    <img id="productImage" src="" alt="Product Image" class="main-image" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=Image+Error'">
+                  </div>
+                </div>
+                
+                <div class="info-card mt-6">
+                  <h3><i class="fas fa-align-left text-primary"></i> Description</h3>
+                  <p id="productDescription" style="white-space: pre-line; line-height: 1.6; color: var(--text-secondary);">
+                    No description provided.
+                  </p>
+                </div>
+                
+                <!-- Q&A Section -->
+                <div class="info-card mt-6">
+                  <h3><i class="fas fa-comments text-primary"></i> Questions & Answers (<span id="commentCount">0</span>)</h3>
+                  
+                  <div class="mb-6 pb-6" style="border-bottom: 1px solid var(--border);">
+                    <form id="commentForm">
+                      <div class="form-group mb-2">
+                        <textarea class="form-control" id="commentText" rows="3" placeholder="Ask the seller a question..." required></textarea>
+                      </div>
+                      <div class="flex justify-end">
+                        <button type="submit" class="btn btn-primary btn-sm" id="submitCommentBtn">Post Question</button>
+                      </div>
+                    </form>
+                  </div>
+                  
+                  <div id="commentsContainer">
+                    <div class="text-muted text-center py-4">Loading comments...</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Right Column: Price & Seller -->
+              <div class="flex-col gap-6">
+                <!-- Buy Box -->
+                <div class="info-card">
+                  <div class="price-tag" id="productPrice">₹0</div>
+                  
+                  <div class="details-list mb-6 mt-4">
+                    <div class="detail-item">
+                      <div class="detail-label">Condition</div>
+                      <div class="detail-value" id="productCondition">Unknown</div>
+                    </div>
+                    <div class="detail-item">
+                      <div class="detail-label">Category</div>
+                      <div class="detail-value" id="productCategory">Other</div>
+                    </div>
+                    <div class="detail-item">
+                      <div class="detail-label">Location</div>
+                      <div class="detail-value" id="productLocation">Unknown</div>
+                    </div>
+                    <div class="detail-item" style="flex: 1 1 100%;">
+                      <div class="detail-label">Pickup Address</div>
+                      <div class="detail-value" id="productAddress" style="font-weight: 500; font-size: var(--font-size-sm);">Not specified</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Seller Info -->
+                  <div style="border-top: 1px solid var(--border); padding-top: var(--space-4); margin-top: var(--space-4);">
+                    <h4 class="font-medium mb-3 text-sm text-muted uppercase tracking-wide">Seller Information</h4>
+                    <div class="seller-profile">
+                      <div class="seller-avatar">
+                        <i class="fas fa-user"></i>
+                      </div>
+                      <div>
+                        <div class="font-semibold text-lg" id="sellerName">Seller Name</div>
+                        <div class="text-sm text-secondary mb-1"><i class="fas fa-star text-warning"></i> <span id="sellerRating">No ratings yet</span></div>
+                        <div class="text-xs text-muted"><i class="fas fa-envelope"></i> <span id="sellerEmailDisplay">Contact info hidden</span></div>
+                      </div>
+                    </div>
+                    
+                    <div id="contactSection" class="contact-grid">
+                      <!-- Filled by JS -->
+                    </div>
+                  </div>
+                  
+                </div>
+                
+                <!-- Safety Tips -->
+                <div class="info-card bg-primary-subtle" style="border: 1px solid var(--primary-light);">
+                  <h3 style="border-bottom-color: var(--primary-light); color: var(--primary-dark);">
+                    <i class="fas fa-shield-alt"></i> Safety Tips
+                  </h3>
+                  <ul class="text-sm text-secondary m-0 pl-4" style="line-height: 1.6;">
+                    <li>Meet in a safe, public location.</li>
+                    <li>Inspect the item before buying.</li>
+                    <li>Do not pay in advance.</li>
+                    <li>Beware of unrealistic offers.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <a href="services.html"><i class="fas fa-wrench"></i><span>Services</span></a>
+        <a href="mart.html" class="active"><i class="fas fa-store"></i><span>Mart</span></a>
+        <a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dash</span></a>
+        <a href="profile.html"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+      </nav>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/product-detail.js"></script>
+  </body>
+</html>
