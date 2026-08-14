@@ -184,7 +184,7 @@
   --shadow-primary: 0 12px 24px -6px rgba(1, 148, 175, 0.40);
   --shadow-glow:    0 0 0 4px rgba(1, 123, 150, 0.30);
 
-  --gradient-primary: linear-gradient(135deg, var(--teal-600) 0%, var(--teal-950) 100%);
-  --gradient-accent:  linear-gradient(135deg, var(--accent-cyan) 0%, var(--teal-600) 100%);
-  --gradient-subtle:  linear-gradient(135deg, rgba(1, 123, 150, 0.1) 0%, rgba(1, 15, 21, 0.3) 100%);
+  --gradient-primary: linear-gradient(135deg, var(--accent-cyan) 0%, var(--teal-300) 100%);
+  --gradient-accent:  linear-gradient(135deg, var(--accent-cyan) 0%, var(--teal-400) 100%);
+  --gradient-subtle:  linear-gradient(135deg, rgba(1, 123, 150, 0.2) 0%, rgba(13, 143, 168, 0.05) 100%);
 }

@@ -4,12 +4,6 @@
  */
 
 document.addEventListener("DOMContentLoaded", async function () {
-  // Check authentication
-  if (typeof api !== 'undefined' && !api.isAuthenticated()) {
-    window.location.href = "index.html";
-    return;
-  }
-
   // Initialize services page
   await initServicesPage();
 });
@@ -182,6 +176,9 @@ function renderServices(services) {
   const container = document.getElementById("servicesContainer");
   if (!container) return;
 
+  const isLoggedIn = !!localStorage.getItem("accessToken");
+  const detailPage = isLoggedIn ? "service-detail.html" : "service-detail-guest.html";
+
   if (services.length === 0) {
     container.innerHTML = `
       <div class="empty-state" style="grid-column: 1 / -1;">
@@ -252,11 +249,10 @@ function renderServices(services) {
       <div class="card-content">
         <div class="card-header">
           <h3 class="card-title">${service.name}</h3>
-          <span class="badge ${
-            service.availability === "Available"
-              ? "badge-success"
-              : "badge-warning"
-          }">
+          <span class="badge ${service.availability === "Available"
+        ? "badge-success"
+        : "badge-warning"
+      }">
             ${service.availability}
           </span>
         </div>
@@ -267,14 +263,12 @@ function renderServices(services) {
           <span><i class="fas fa-check-circle"></i> ${service.completed_bookings_count || 0} jobs</span>
         </div>
         <p class="service-description-short">${service.description.substring(
-          0,
-          100,
-        )}${service.description.length > 100 ? "..." : ""}</p>
+        0,
+        100,
+      )}${service.description.length > 100 ? "..." : ""}</p>
         <div class="card-footer">
           <span class="card-price">${priceDisplay}</span>
-          <a href="service-detail.html?id=${
-            service.id
-          }" class="btn btn-primary btn-sm">
+          <a href="${detailPage}?id=${service.id}" class="btn btn-primary btn-sm">
             View Details
           </a>
         </div>

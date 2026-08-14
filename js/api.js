@@ -731,46 +731,41 @@ async function createBooking(bookingData) {
         // Check for field-specific errors
         if (responseData.provider_id) {
           fieldErrors.push(
-            `provider_id: ${
-              Array.isArray(responseData.provider_id)
-                ? responseData.provider_id.join(", ")
-                : responseData.provider_id
+            `provider_id: ${Array.isArray(responseData.provider_id)
+              ? responseData.provider_id.join(", ")
+              : responseData.provider_id
             }`,
           );
         }
         if (responseData.service_category) {
           fieldErrors.push(
-            `service_category: ${
-              Array.isArray(responseData.service_category)
-                ? responseData.service_category.join(", ")
-                : responseData.service_category
+            `service_category: ${Array.isArray(responseData.service_category)
+              ? responseData.service_category.join(", ")
+              : responseData.service_category
             }`,
           );
         }
         if (responseData.description) {
           fieldErrors.push(
-            `description: ${
-              Array.isArray(responseData.description)
-                ? responseData.description.join(", ")
-                : responseData.description
+            `description: ${Array.isArray(responseData.description)
+              ? responseData.description.join(", ")
+              : responseData.description
             }`,
           );
         }
         if (responseData.address) {
           fieldErrors.push(
-            `address: ${
-              Array.isArray(responseData.address)
-                ? responseData.address.join(", ")
-                : responseData.address
+            `address: ${Array.isArray(responseData.address)
+              ? responseData.address.join(", ")
+              : responseData.address
             }`,
           );
         }
         if (responseData.scheduled_date) {
           fieldErrors.push(
-            `scheduled_date: ${
-              Array.isArray(responseData.scheduled_date)
-                ? responseData.scheduled_date.join(", ")
-                : responseData.scheduled_date
+            `scheduled_date: ${Array.isArray(responseData.scheduled_date)
+              ? responseData.scheduled_date.join(", ")
+              : responseData.scheduled_date
             }`,
           );
         }
@@ -1123,37 +1118,33 @@ async function createReview(reviewData) {
         // Check for field-specific errors
         if (responseData.booking) {
           fieldErrors.push(
-            `booking: ${
-              Array.isArray(responseData.booking)
-                ? responseData.booking.join(", ")
-                : responseData.booking
+            `booking: ${Array.isArray(responseData.booking)
+              ? responseData.booking.join(", ")
+              : responseData.booking
             }`,
           );
         }
         if (responseData.provider_id) {
           fieldErrors.push(
-            `provider_id: ${
-              Array.isArray(responseData.provider_id)
-                ? responseData.provider_id.join(", ")
-                : responseData.provider_id
+            `provider_id: ${Array.isArray(responseData.provider_id)
+              ? responseData.provider_id.join(", ")
+              : responseData.provider_id
             }`,
           );
         }
         if (responseData.rating) {
           fieldErrors.push(
-            `rating: ${
-              Array.isArray(responseData.rating)
-                ? responseData.rating.join(", ")
-                : responseData.rating
+            `rating: ${Array.isArray(responseData.rating)
+              ? responseData.rating.join(", ")
+              : responseData.rating
             }`,
           );
         }
         if (responseData.comment) {
           fieldErrors.push(
-            `comment: ${
-              Array.isArray(responseData.comment)
-                ? responseData.comment.join(", ")
-                : responseData.comment
+            `comment: ${Array.isArray(responseData.comment)
+              ? responseData.comment.join(", ")
+              : responseData.comment
             }`,
           );
         }

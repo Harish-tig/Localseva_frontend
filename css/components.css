@@ -307,14 +307,34 @@ select.form-control {
   align-items: center;
 }
 
-.card-price {
+.card-price,
+.price-tag,
+.product-price,
+.price,
+.modal-price {
   font-size: var(--font-size-xl);
   font-weight: 800;
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: var(--primary);
 }
+
+[data-theme="dark"] .card-price,
+[data-theme="dark"] .price-tag,
+[data-theme="dark"] .product-price,
+[data-theme="dark"] .price,
+[data-theme="dark"] .modal-price,
+[data-theme="dark"] .provider-price {
+  background-image: linear-gradient(135deg, #22d3ee 0%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #22d3ee !important;
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.25);
+}
+
 
 /* Provider / Service card variant */
 .card-provider {

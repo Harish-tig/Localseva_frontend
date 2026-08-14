@@ -19,11 +19,6 @@ const CATEGORY_LABELS = {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Check auth
-  if (typeof api !== 'undefined' && !api.isAuthenticated()) {
-    window.location.href = "index.html";
-    return;
-  }
 
   // Setup Add Product form
   const addProductForm = document.getElementById("addProductForm");
@@ -68,7 +63,7 @@ function debounce(func, wait) {
 
 async function loadProducts() {
   const container = document.getElementById("productsContainer");
-  
+
   if (!container) return;
 
   // Show loading state
@@ -124,6 +119,9 @@ function renderProducts(products) {
   const container = document.getElementById("productsContainer");
   if (!container) return;
 
+  const isLoggedIn = !!localStorage.getItem("accessToken");
+  const detailPage = isLoggedIn ? "product-detail.html" : "product-detail-guest.html";
+
   if (!products || products.length === 0) {
     container.innerHTML = `
       <div class="empty-state" style="grid-column: 1 / -1;">
@@ -140,10 +138,10 @@ function renderProducts(products) {
     let conditionBadge = "badge-secondary";
     if (product.condition === "NEW") conditionBadge = "badge-success";
     else if (product.condition === "LIKE_NEW" || product.condition === "GOOD") conditionBadge = "badge-primary";
-    
+
     // Format condition text
     const conditionText = product.condition ? product.condition.replace("_", " ") : "Unknown";
-    
+
     // Image fallback
     const imgUrl = product.main_image || "https://placehold.co/600x400/e2e8f0/64748b?text=No+Image";
 
@@ -170,7 +168,7 @@ function renderProducts(products) {
           
           <div class="card-footer">
             <span class="card-price">${formatCurrency(product.price)}</span>
-            <a href="product-detail.html?id=${product.id}" class="btn btn-primary btn-sm">
+            <a href="${detailPage}?id=${product.id}" class="btn btn-primary btn-sm">
               View Item
             </a>
           </div>
@@ -182,14 +180,14 @@ function renderProducts(products) {
 
 async function handleAddProduct(e) {
   e.preventDefault();
-  
+
   const submitBtn = document.getElementById("submitProductBtn");
   const originalText = submitBtn.textContent;
-  
+
   try {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Listing...';
-    
+
     const formData = new FormData();
     formData.append("title", document.getElementById("title").value);
     formData.append("price", document.getElementById("price").value);
@@ -225,7 +223,7 @@ async function handleAddProduct(e) {
 
     // Reload products to show the new one
     loadProducts();
-    
+
   } catch (error) {
     console.error("Error creating product:", error);
     showToast(error.message || "Failed to list item.", "error");

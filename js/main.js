@@ -23,7 +23,7 @@ function initTheme() {
   themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
+
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeIcon(themeToggle, newTheme);
@@ -105,32 +105,41 @@ function initSidebar() {
 function checkAuth() {
   const token = localStorage.getItem('accessToken');
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  const publicPages = ['index.html', 'login.html', 'signup.html'];
+  const publicPages = ['index.html', 'login.html', 'signup.html', 'services.html', 'mart.html', 'service-detail-guest.html', 'product-detail-guest.html', 'dashboard.html', 'profile.html'];
 
   if (!publicPages.includes(currentPath) && !token) {
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
     return;
   }
 
-  // Set username in UI if logged in
-  if (token) {
-    const userName = localStorage.getItem('userName') || 'User';
-    document.querySelectorAll('#userName').forEach(el => el.textContent = userName);
-  }
+  // Set username in UI
+  const userName = token ? (localStorage.getItem('userName') || 'User') : 'Guest';
+  document.querySelectorAll('#userName').forEach(el => el.textContent = userName);
 }
 
 function initLogout() {
+  const token = localStorage.getItem('accessToken');
   const logoutBtns = document.querySelectorAll('.logout-btn');
   logoutBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('userIsProvider');
-      
-      window.location.href = 'index.html';
-    });
+    if (token) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userIsProvider');
+
+        window.location.href = 'index.html';
+      });
+    } else {
+      btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-primary');
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'login.html';
+      });
+    }
   });
 }
 
@@ -142,11 +151,11 @@ function initTabs() {
       btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
         const container = btn.closest('.tabs-container');
-        
+
         // Deactivate all
         container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         container.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-        
+
         // Activate target
         btn.classList.add('active');
         container.querySelector(targetId).classList.add('active');
@@ -156,12 +165,19 @@ function initTabs() {
 }
 
 /* ===== Modals Component ===== */
-window.openModal = function(modalId) {
+window.openModal = function (modalId) {
+  const token = localStorage.getItem('accessToken');
+  const authRequiredModals = ['bookingModal', 'reviewModal', 'addProductModal'];
+  if (authRequiredModals.includes(modalId) && !token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
   const modal = document.getElementById(modalId);
   if (modal) modal.classList.add('active');
 };
 
-window.closeModal = function(modalId) {
+window.closeModal = function (modalId) {
   const modal = document.getElementById(modalId);
   if (modal) modal.classList.remove('active');
 };
@@ -173,13 +189,13 @@ document.addEventListener('click', (e) => {
   }
 });
 document.querySelectorAll('.modal-close').forEach(btn => {
-  btn.addEventListener('click', function() {
+  btn.addEventListener('click', function () {
     this.closest('.modal-overlay').classList.remove('active');
   });
 });
 
 /* ===== Toast Notifications ===== */
-window.showToast = function(message, type = 'info') {
+window.showToast = function (message, type = 'info') {
   let container = document.getElementById('toast-container');
   if (!container) {
     container = document.createElement('div');
@@ -190,7 +206,7 @@ window.showToast = function(message, type = 'info') {
 
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
-  
+
   let icon = 'fa-info-circle';
   let title = 'Info';
   if (type === 'success') { icon = 'fa-check-circle'; title = 'Success'; }
@@ -207,7 +223,7 @@ window.showToast = function(message, type = 'info') {
   `;
 
   container.appendChild(toast);
-  
+
   // Animate in
   setTimeout(() => toast.classList.add('show'), 10);
 
@@ -227,20 +243,20 @@ window.showToast = function(message, type = 'info') {
 };
 
 /* ===== Format Utilities ===== */
-window.formatCurrency = function(amount) {
+window.formatCurrency = function (amount) {
   if (amount === null || amount === undefined) return '₹0';
   const num = parseFloat(amount);
   if (isNaN(num)) return '₹0';
   return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
 };
 
-window.formatDate = function(dateString) {
+window.formatDate = function (dateString) {
   if (!dateString) return '';
   try {
     return new Date(dateString).toLocaleDateString('en-IN', {
       day: 'numeric', month: 'short', year: 'numeric'
     });
-  } catch(e) {
+  } catch (e) {
     return dateString;
   }
 };

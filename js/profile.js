@@ -6,7 +6,19 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Check auth
   if (typeof api !== 'undefined' && !api.isAuthenticated()) {
-    window.location.href = "index.html";
+    const pageBody = document.querySelector(".page-body");
+    if (pageBody) {
+      pageBody.innerHTML = `
+        <div class="empty-state" style="margin-top: 4rem;">
+          <i class="fas fa-lock" style="font-size: 4rem; color: var(--primary); opacity: 0.8; margin-bottom: var(--space-4);"></i>
+          <h3>Login Required</h3>
+          <p>Please log in to view and manage your profile details.</p>
+          <a href="login.html" class="btn btn-primary mt-4" style="padding: var(--space-3) var(--space-6);">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </a>
+        </div>
+      `;
+    }
     return;
   }
 

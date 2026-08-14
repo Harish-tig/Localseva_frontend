@@ -1,25 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LocalSeva - Future of Local Services</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <!-- Modern Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
     <style>
       :root {
-        --primary-blue: #0d8fa8;    /* teal-500 — our main accent */
-        --light-blue:   #4dacc1;    /* teal-300 */
-        --lighter-blue: #b3dce5;    /* teal-100 */
-        --dark-blue:    #01242f;    /* teal-900 — brand dark */
-        --text-dark:    #01242f;
-        --text-light:   #3f6370;
-        --background:   #eef4f5;    /* teal-tinted off-white */
-        --white:        #f7fbfc;
-        --shadow:       rgba(1, 36, 47, 0.10);
-        --gray-bg:      #e4ecee;
+        --primary-blue: var(--primary);
+        --light-blue:   var(--primary-hover);
+        --lighter-blue: var(--primary-subtle);
+        --dark-blue:    var(--teal-900);
+        --text-dark:    var(--text);
+        --text-light:   var(--text-secondary);
+        --background:   var(--bg-color);
+        --white:        var(--surface);
+        --shadow:       var(--shadow-md);
+        --gray-bg:      var(--bg-alt);
         --green:  #10b981;
         --yellow: #f59e0b;
         --purple: #7c3aed;
@@ -31,24 +36,24 @@
       }
 
       /* Dark mode variables */
-      .dark-mode {
-        --primary-blue: #22d3ee;
-        --light-blue:   #0d8fa8;
-        --lighter-blue: #044a5c;
+      [data-theme="dark"] {
+        --primary-blue: var(--accent-cyan);
+        --light-blue:   var(--teal-300);
+        --lighter-blue: rgba(13, 143, 168, 0.2);
         --dark-blue:    #010f15;
-        --text-dark:    #e8f4f6;
-        --text-light:   #80c4d3;
-        --background:   #030e11;
-        --white:        #0a1f25;
-        --shadow:       rgba(0, 0, 0, 0.40);
-        --gray-bg:      #0d2830;
+        --text-dark:    var(--text);
+        --text-light:   var(--text-secondary);
+        --background:   var(--bg-color);
+        --white:        var(--surface);
+        --shadow:       var(--shadow-md);
+        --gray-bg:      var(--bg-alt);
       }
 
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family: var(--font-family);
       }
 
       body {
@@ -683,28 +688,28 @@
       }
 
       /* Dark mode adjustments for feature cards */
-      .dark-mode .feature-card:nth-child(1) {
-        background: linear-gradient(135deg, #2a3c7a 0%, #1e1e1e 100%);
+      [data-theme="dark"] .feature-card:nth-child(1) {
+        background: linear-gradient(135deg, #0b253a 0%, var(--surface) 100%);
       }
 
-      .dark-mode .feature-card:nth-child(2) {
-        background: linear-gradient(135deg, #1e3a5f 0%, #1e1e1e 100%);
+      [data-theme="dark"] .feature-card:nth-child(2) {
+        background: linear-gradient(135deg, #072e36 0%, var(--surface) 100%);
       }
 
-      .dark-mode .feature-card:nth-child(3) {
-        background: linear-gradient(135deg, #3a2a5f 0%, #1e1e1e 100%);
+      [data-theme="dark"] .feature-card:nth-child(3) {
+        background: linear-gradient(135deg, #221438 0%, var(--surface) 100%);
       }
 
-      .dark-mode .feature-card:nth-child(4) {
-        background: linear-gradient(135deg, #5f2a4a 0%, #1e1e1e 100%);
+      [data-theme="dark"] .feature-card:nth-child(4) {
+        background: linear-gradient(135deg, #3d1428 0%, var(--surface) 100%);
       }
 
-      .dark-mode .feature-card:nth-child(5) {
-        background: linear-gradient(135deg, #1e5f3a 0%, #1e1e1e 100%);
+      [data-theme="dark"] .feature-card:nth-child(5) {
+        background: linear-gradient(135deg, #0c3621 0%, var(--surface) 100%);
       }
 
-      .dark-mode .feature-card:nth-child(6) {
-        background: linear-gradient(135deg, #5f471e 0%, #1e1e1e 100%);
+      [data-theme="dark"] .feature-card:nth-child(6) {
+        background: linear-gradient(135deg, #3b280a 0%, var(--surface) 100%);
       }
 
       .feature-card:hover {
@@ -1372,21 +1377,21 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="nav-container">
-        <a href="home.html" class="logo"> LocalSeva </a>
+        <a href="index.html" class="logo"><i class="fas fa-hands-helping"></i> LocalSeva </a>
         <ul class="nav-links">
-          <li><a href="home.html">Home</a></li>
-          <li><a href="find-service.html">Find Service</a></li>
-          <!-- <li><a href="marketplace.html">Marketplace</a></li> -->
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Find Services</a></li>
+          <li><a href="mart.html">Marketplace</a></li>
         </ul>
-        <div style="display: flex; align-items: center">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
           <button
             class="theme-toggle"
             id="themeToggle"
-            title="Toggle Dark Mode"
+            title="Toggle Theme"
           >
             <i class="fas fa-moon"></i>
           </button>
-          <a href="index.html" class="login-btn">Login</a>
+          <a href="login.html" class="login-btn" id="navAuthBtn">Login</a>
         </div>
       </div>
     </nav>
@@ -1406,7 +1411,7 @@
         <!-- Service Providers Card on Left Side - Shows only first provider -->
         <div
           class="hero-providers-card"
-          onclick="window.location.href = 'find-service.html'"
+          onclick="window.location.href = 'services.html'"
         >
           <div class="hero-card-header">
             <h3><i class="fas fa-star"></i> Top Service Provider</h3>
@@ -1624,14 +1629,12 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="footer-logo">LocalSeva</div>
+      <div class="footer-logo"><i class="fas fa-hands-helping"></i> LocalSeva</div>
       <ul class="footer-links">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="find-service.html">Find Service</a></li>
-        <!-- <li><a href="marketplace.html">Marketplace</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Privacy Policy</a></li> -->
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Find Services</a></li>
+        <li><a href="mart.html">Marketplace</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
       </ul>
       <div class="copyright">
         © 2026 LocalSeva. All rights reserved. Bridging the gap in local
@@ -2209,9 +2212,14 @@
                 </div>
             `;
 
-        // Update modal price
+        // Update modal price and booking button
         modalPrice.textContent = `₹${price}`;
         modalPriceType.textContent = pricingType === "FIXED" ? "" : "/hr";
+        if (modalBookBtn) {
+          const isLoggedIn = !!localStorage.getItem("accessToken");
+          const detailPage = isLoggedIn ? "service-detail.html" : "service-detail-guest.html";
+          modalBookBtn.href = `${detailPage}?id=${selectedProvider.id}`;
+        }
 
         // Show the modal
         providerModal.style.display = "flex";
@@ -2288,34 +2296,35 @@
 
       // Theme toggle functions
       function toggleTheme() {
-        isDarkMode = !isDarkMode;
-
-        if (isDarkMode) {
-          document.body.classList.add("dark-mode");
-          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-          themeToggle.setAttribute("title", "Switch to Light Mode");
-          localStorage.setItem("theme", "dark");
-        } else {
-          document.body.classList.remove("dark-mode");
-          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-          themeToggle.setAttribute("title", "Switch to Dark Mode");
-          localStorage.setItem("theme", "light");
-        }
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = currentTheme === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateThemeIcon(newTheme);
       }
 
       function loadTheme() {
-        const savedTheme = localStorage.getItem("theme");
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        updateThemeIcon(savedTheme);
+      }
 
-        if (savedTheme === "dark") {
-          isDarkMode = true;
-          document.body.classList.add("dark-mode");
+      function updateThemeIcon(theme) {
+        if (theme === "dark") {
           themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
           themeToggle.setAttribute("title", "Switch to Light Mode");
         } else {
-          isDarkMode = false;
-          document.body.classList.remove("dark-mode");
           themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
           themeToggle.setAttribute("title", "Switch to Dark Mode");
+        }
+      }
+
+      function checkNavAuth() {
+        const token = localStorage.getItem("accessToken");
+        const navAuthBtn = document.getElementById("navAuthBtn");
+        if (navAuthBtn && token) {
+          navAuthBtn.textContent = "Dashboard";
+          navAuthBtn.href = "dashboard.html";
         }
       }
 
@@ -2363,6 +2372,9 @@
       document.addEventListener("DOMContentLoaded", function () {
         // Load theme preference
         loadTheme();
+
+        // Check nav auth status
+        checkNavAuth();
 
         // Load all providers initially
         loadProviders();

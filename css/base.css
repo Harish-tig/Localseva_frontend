@@ -8,8 +8,12 @@
   box-sizing: border-box;
 }
 
-html {
+html, body, .page-body, .sidebar-nav, .modal, .modal-body, .providers-scroll-container, * {
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+html {
   -webkit-text-size-adjust: 100%;
 }
 
