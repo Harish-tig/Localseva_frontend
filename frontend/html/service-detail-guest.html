@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     
     <!-- Design System -->
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/layout.css" />
-    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
     
     <style>
       .profile-header {
@@ -283,9 +283,6 @@
                     <h3 style="margin: 0; border: none; padding: 0;">
                       <i class="fas fa-comments text-primary mr-2"></i> Reviews (<span id="reviewCountHeader">0</span>)
                     </h3>
-                    <button id="writeReviewBtn" class="btn btn-secondary btn-sm" style="display: none;">
-                      <i class="fas fa-pen"></i> Write Review
-                    </button>
                   </div>
                   <div id="reviewsList" class="reviews-list">
                     <div class="text-muted text-center py-4">Loading reviews...</div>
@@ -331,91 +328,10 @@
         <a href="profile.html"><i class="fas fa-user-circle"></i><span>Profile</span></a>
       </nav>
     </div>
-    
-    <!-- Booking Modal -->
-    <div class="modal-overlay" id="bookingModal">
-      <div class="modal">
-        <div class="modal-header">
-          <h3 class="modal-title">Book Service</h3>
-          <button class="modal-close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-          <form id="bookingForm">
-            <div class="form-group">
-              <label class="form-label required" for="service_category">Service Category</label>
-              <select class="form-control" id="service_category" required>
-                <option value="">Select a category</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label required" for="scheduled_date">Preferred Date & Time</label>
-              <input type="datetime-local" class="form-control" id="scheduled_date" required>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label required" for="address">Service Address</label>
-              <textarea class="form-control" id="address" placeholder="Enter your full address" rows="3" required></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label required" for="description">Issue Description</label>
-              <textarea class="form-control" id="description" placeholder="Describe the problem or what you need done..." rows="4" required></textarea>
-            </div>
-            
-            <div class="flex gap-2 justify-end mt-6">
-              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
-              <button type="submit" class="btn btn-primary" id="submitBookingBtn">Confirm Booking</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Review Modal -->
-    <div class="modal-overlay" id="reviewModal">
-      <div class="modal">
-        <div class="modal-header">
-          <h3 class="modal-title">Write a Review</h3>
-          <button class="modal-close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-          <form id="reviewForm">
-            <div class="form-group">
-              <label class="form-label required" for="review_booking">Select Completed Booking</label>
-              <select class="form-control" id="review_booking" required>
-                <option value="">Select booking</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label required" for="review_rating">Rating (1-5)</label>
-              <select class="form-control" id="review_rating" required>
-                <option value="5">5 - Excellent</option>
-                <option value="4">4 - Good</option>
-                <option value="3">3 - Average</option>
-                <option value="2">2 - Poor</option>
-                <option value="1">1 - Terrible</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label required" for="review_comment">Your Review</label>
-              <textarea class="form-control" id="review_comment" placeholder="Share your experience..." rows="4" required></textarea>
-            </div>
-            
-            <div class="flex gap-2 justify-end mt-6">
-              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
-              <button type="submit" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
 
     <!-- Scripts -->
-    <script src="js/api.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/service-detail.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/service-detail-guest.js"></script>
   </body>
 </html>
