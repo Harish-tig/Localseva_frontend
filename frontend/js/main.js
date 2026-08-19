@@ -129,7 +129,7 @@ function initLogout() {
         localStorage.removeItem('userName');
         localStorage.removeItem('userIsProvider');
 
-        window.location.href = 'index.html';
+        window.location.href = '../index.html';
       });
     } else {
       btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';

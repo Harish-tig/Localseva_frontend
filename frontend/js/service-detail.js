@@ -9,7 +9,7 @@ let currentProvider = null;
 document.addEventListener("DOMContentLoaded", function () {
   // Check auth
   if (typeof api !== 'undefined' && !api.isAuthenticated()) {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
     return;
   }
 

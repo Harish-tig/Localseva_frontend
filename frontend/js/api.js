@@ -121,7 +121,7 @@ async function apiRequest(endpoint, method = "GET", data = null) {
       }
       // Refresh failed, redirect to login
       clearTokens();
-      window.location.href = "index.html";
+      window.location.href = "../index.html";
       throw new Error("Session expired. Please login again.");
     }
 
@@ -314,7 +314,7 @@ async function getProfile() {
           return await getProfile();
         } else {
           clearTokens();
-          window.location.href = "index.html";
+          window.location.href = "../index.html";
           throw new Error("Session expired. Please login again.");
         }
       }
@@ -793,7 +793,7 @@ async function createBooking(bookingData) {
           localStorage.removeItem("refreshToken");
         }
         alert("Session expired. Please login again.");
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
       }
 
       throw new Error(errorMessage);
@@ -1126,7 +1126,7 @@ async function createReview(reviewData) {
           localStorage.removeItem("refreshToken");
         }
         alert("Session expired. Please login again.");
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
       }
 
       throw new Error(errorMessage);
