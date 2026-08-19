@@ -1,7 +1,7 @@
 /**
  * API Configuration for Django DRF with JWT Authentication
  */
-// const API_BASE_URL = "http://127.0.0.1:8000/api/user/";
+//const API_BASE_URL = "http://127.0.0.1:8000/api/user/";
 const API_BASE_URL = "https://localseva-kuak.onrender.com/api/user/";
 
 // JWT Token management
