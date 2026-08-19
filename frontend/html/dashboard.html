@@ -137,6 +137,8 @@
               <button class="tab-btn active" data-target="#tab-bookings">My Bookings</button>
               <button class="tab-btn" data-target="#tab-requests" id="tab-requests-btn" style="display: none;">Service Requests</button>
               <button class="tab-btn" data-target="#tab-listings">Marketplace Listings</button>
+              <button class="tab-btn" data-target="#tab-comments"><i class="fas fa-comments"></i> Comments Inbox</button>
+              <button class="tab-btn" data-target="#tab-reports"><i class="fas fa-flag"></i> My Reports</button>
             </div>
             
             <!-- Tab: My Bookings (Services I requested) -->
@@ -184,6 +186,28 @@
                 <!-- Content injected by JS -->
               </div>
             </div>
+
+            <!-- Tab: Comments Inbox (questions on my products) -->
+            <div class="tab-pane" id="tab-comments">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Questions on My Listings</h3>
+                <span class="text-xs text-muted">Questions buyers have asked on your products</span>
+              </div>
+              <div id="commentsList" class="dashboard-list animate-fade-in">
+                <div class="loading-skeleton" style="height: 80px;"></div>
+                <div class="loading-skeleton" style="height: 80px;"></div>
+              </div>
+            </div>
+
+            <!-- Tab: My Reports -->
+            <div class="tab-pane" id="tab-reports">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Reports I've Submitted</h3>
+              </div>
+              <div id="reportsList" class="dashboard-list animate-fade-in">
+                <div class="loading-skeleton" style="height: 80px;"></div>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -199,6 +223,83 @@
     
     <!-- Modals for actions -->
     
+    <!-- Edit Product Modal -->
+    <div class="modal-overlay" id="editProductModal">
+      <div class="modal" style="max-width: 640px; width: 90%;">
+        <div class="modal-header">
+          <h3 class="modal-title"><i class="fas fa-edit text-primary"></i> Edit Listing</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="editProductForm">
+            <input type="hidden" id="editProductId">
+            <div class="form-group">
+              <label class="form-label required" for="editTitle">Title</label>
+              <input type="text" class="form-control" id="editTitle" required>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+              <div class="form-group">
+                <label class="form-label required" for="editPrice">Price (₹)</label>
+                <input type="number" class="form-control" id="editPrice" min="0" step="0.01" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label required" for="editCondition">Condition</label>
+                <select class="form-control" id="editCondition" required>
+                  <option value="NEW">New</option>
+                  <option value="LIKE_NEW">Like New</option>
+                  <option value="GOOD">Good</option>
+                  <option value="FAIR">Fair</option>
+                  <option value="POOR">Poor</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editDescription">Description</label>
+              <textarea class="form-control" id="editDescription" rows="3"></textarea>
+            </div>
+            <div class="flex gap-2 mt-2">
+              <div class="form-group" style="flex:1;">
+                <label class="form-label" for="editCity">City</label>
+                <input type="text" class="form-control" id="editCity">
+              </div>
+              <div class="form-group" style="flex:2;">
+                <label class="form-label" for="editAddress">Pickup Address</label>
+                <input type="text" class="form-control" id="editAddress">
+              </div>
+            </div>
+            <div class="flex gap-2 justify-end mt-6">
+              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="saveEditProductBtn"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reply to Comment Modal (from Comments Inbox) -->
+    <div class="modal-overlay" id="replyCommentModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title"><i class="fas fa-reply text-primary"></i> Reply to Question</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <div id="replyQuestionText" class="p-3 mb-4" style="background:var(--bg-alt);border-radius:var(--radius);font-style:italic;"></div>
+          <form id="replyCommentForm">
+            <input type="hidden" id="replyCommentId">
+            <div class="form-group">
+              <label class="form-label required" for="replyText">Your Reply</label>
+              <textarea class="form-control" id="replyText" rows="3" placeholder="Type your reply to the buyer..." required></textarea>
+            </div>
+            <div class="flex gap-2 justify-end mt-4">
+              <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="submitReplyBtn"><i class="fas fa-paper-plane"></i> Send Reply</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- Notes Update Modal -->
     <div class="modal-overlay" id="notesModal">
       <div class="modal">

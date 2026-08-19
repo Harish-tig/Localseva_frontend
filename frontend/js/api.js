@@ -1,8 +1,8 @@
 /**
  * API Configuration for Django DRF with JWT Authentication
  */
-//const API_BASE_URL = "http://127.0.0.1:8000/api/user/";
-const API_BASE_URL = "https://localseva-kuak.onrender.com/api/user/";
+const API_BASE_URL = "http://127.0.0.1:8000/api/user/";
+//const API_BASE_URL = "https://localseva-kuak.onrender.com/api/user/";
 
 // JWT Token management
 let accessToken = localStorage.getItem("accessToken");
@@ -931,61 +931,15 @@ async function cancelBooking(id) {
 
 /**
  * Get reviews for a provider
+ * NOTE: This endpoint is AllowAny on the backend — no auth token required.
  */
 async function getProviderReviews(providerId) {
   console.log("📊 Getting reviews for provider:", providerId);
-
-  // Using global API_BASE_URL
-  const endpoint = `${API_BASE_URL}providers/${providerId}/reviews/`;
-
-  console.log("API Endpoint:", endpoint);
-
   try {
-    // Get the accessToken from localStorage
-    const token = localStorage.getItem("accessToken");
-
-    if (!token) {
-      console.error("No access token found!");
-      throw new Error("Authentication required.");
-    }
-
-    const response = await fetch(endpoint, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log("Response status:", response.status);
-
-    let responseData;
-    try {
-      responseData = await response.json();
-      console.log("Response data (JSON):", responseData);
-    } catch (e) {
-      const text = await response.text();
-      console.log("Response text:", text);
-      responseData = { text: text };
-    }
-
-    if (!response.ok) {
-      let errorMessage = "Failed to fetch reviews";
-
-      if (responseData) {
-        if (responseData.detail) {
-          errorMessage = responseData.detail;
-        } else if (responseData.message) {
-          errorMessage = responseData.message;
-        }
-      }
-
-      console.error("API Error details:", errorMessage);
-      throw new Error(errorMessage);
-    }
-
-    console.log("✅ Reviews fetched successfully:", responseData);
-    return responseData;
+    // Use apiRequest which handles auth header optionally (no token = no header)
+    const data = await apiRequest(`providers/${providerId}/reviews/`, "GET");
+    console.log("✅ Reviews fetched successfully:", data);
+    return data;
   } catch (error) {
     console.error("Fetch error in getProviderReviews:", error);
     throw error;
@@ -1526,6 +1480,79 @@ async function getMyProductComments() {
   }
 }
 
+// ===== COMMENT REPLIES =====
+
+/**
+ * Get replies for a product comment
+ * Backend: GET /marketplace/comment-replies/?comment_id=<id> (AllowAny)
+ */
+async function getCommentReplies(commentId) {
+  try {
+    console.log("Getting replies for comment:", commentId);
+    const data = await apiRequest(`marketplace/comment-replies/?comment_id=${commentId}`, "GET");
+    console.log("Comment replies received:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching comment replies:", error);
+    return [];
+  }
+}
+
+/**
+ * Create a reply to a product comment (only product seller can reply)
+ * Backend: POST /marketplace/comment-replies/ { comment_id, reply }
+ */
+async function createCommentReply(commentId, replyText) {
+  try {
+    console.log("Creating reply for comment:", commentId);
+    const data = await apiRequest(`marketplace/comment-replies/`, "POST", {
+      comment_id: commentId,
+      reply: replyText,
+    });
+    console.log("Comment reply created:", data);
+    return data;
+  } catch (error) {
+    console.error("Error creating comment reply:", error);
+    throw error;
+  }
+}
+
+// ===== REPORT SYSTEM =====
+
+/**
+ * Create a report against a user or service provider
+ * Backend: POST /reports/create/ (auth required)
+ * Required fields: reported_user (ID), report_type, description
+ * Optional: booking (ID), reported_profile_id (profile ID), evidence_image
+ */
+async function createReport(reportData) {
+  try {
+    console.log("Creating report:", reportData);
+    const data = await apiRequest("reports/create/", "POST", reportData);
+    console.log("Report created:", data);
+    return data;
+  } catch (error) {
+    console.error("Error creating report:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get reports submitted by the current user
+ * Backend: GET /reports/my/ (auth required)
+ */
+async function getMyReports() {
+  try {
+    console.log("Getting user reports");
+    const data = await apiRequest("reports/my/", "GET");
+    console.log("User reports received:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user reports:", error);
+    return [];
+  }
+}
+
 // ===== PASSWORD RESET =====
 
 /**
@@ -1649,6 +1676,14 @@ window.api = {
   deleteComment,
   getMyProducts,
   getMyProductComments,
+
+  // Comment replies
+  getCommentReplies,
+  createCommentReply,
+
+  // Reports
+  createReport,
+  getMyReports,
 
   // Core API function
   apiRequest,

@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Forms
   document.getElementById("notesForm")?.addEventListener("submit", handleNotesSubmit);
   document.getElementById("completeJobForm")?.addEventListener("submit", handleCompleteJobSubmit);
+  document.getElementById("editProductForm")?.addEventListener("submit", handleEditProductSubmit);
+  document.getElementById("replyCommentForm")?.addEventListener("submit", handleDashboardReplySubmit);
 
   try {
     currentUser = await api.getCurrentUser();
@@ -54,6 +56,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       loadServiceRequests();
     }
     loadMyListings();
+    loadMyProductComments();
+    loadMyReports();
     
   } catch (error) {
     console.error("Failed to load user profile:", error);
@@ -299,6 +303,7 @@ async function loadMyListings() {
         <div class="list-item-actions">
           <a href="product-detail.html?id=${product.id}" class="btn btn-secondary btn-sm"><i class="fas fa-external-link-alt"></i> View</a>
           ${product.is_active ? `
+            <button class="btn btn-outline btn-sm" onclick='openEditProductModal(${JSON.stringify(product)})'><i class="fas fa-edit"></i> Edit</button>
             <button class="btn btn-danger btn-sm" onclick="deactivateProduct(${product.id})"><i class="fas fa-trash"></i> Delete</button>
           ` : '<span class="text-xs text-muted">Deleted</span>'}
         </div>
@@ -319,6 +324,47 @@ async function deactivateProduct(id) {
     loadMyListings();
   } catch (error) {
     showToast(error.message, "error");
+  }
+}
+
+/* ========================================================
+   Edit Product
+   ======================================================== */
+function openEditProductModal(product) {
+  document.getElementById("editProductId").value = product.id;
+  document.getElementById("editTitle").value = product.title || '';
+  document.getElementById("editPrice").value = product.price || '';
+  document.getElementById("editCondition").value = product.condition || 'GOOD';
+  document.getElementById("editDescription").value = product.description || '';
+  document.getElementById("editCity").value = product.city || '';
+  document.getElementById("editAddress").value = product.address || '';
+  openModal("editProductModal");
+}
+
+async function handleEditProductSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById("saveEditProductBtn");
+  const originalHTML = btn.innerHTML;
+  try {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    const id = document.getElementById("editProductId").value;
+    const formData = new FormData();
+    formData.append("title", document.getElementById("editTitle").value);
+    formData.append("price", document.getElementById("editPrice").value);
+    formData.append("condition", document.getElementById("editCondition").value);
+    formData.append("description", document.getElementById("editDescription").value);
+    formData.append("city", document.getElementById("editCity").value);
+    formData.append("address", document.getElementById("editAddress").value);
+    await api.updateProduct(id, formData);
+    closeModal("editProductModal");
+    showToast("Listing updated successfully!", "success");
+    loadMyListings();
+  } catch (error) {
+    showToast(error.message || "Failed to update listing.", "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
   }
 }
 
@@ -355,5 +401,147 @@ async function handleNotesSubmit(e) {
     
   } catch (error) {
     showToast(error.message, "error");
+  }
+}
+
+/* ========================================================
+   TAB: Comments Inbox (questions on my products)
+   ======================================================== */
+async function loadMyProductComments() {
+  const container = document.getElementById("commentsList");
+  if (!container) return;
+
+  try {
+    const comments = await api.getMyProductComments();
+
+    if (!comments || comments.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-comment-slash"></i>
+          <h3>No questions yet</h3>
+          <p>Buyers haven't asked any questions on your listings.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = comments.map(comment => `
+      <div class="list-item">
+        <div class="list-item-main">
+          <div class="list-item-title">
+            <i class="fas fa-question-circle text-primary"></i>
+            <a href="product-detail.html?id=${comment.product}" class="text-primary" style="text-decoration:none;">Product #${comment.product}</a>
+          </div>
+          <div class="list-item-meta">
+            <span><i class="fas fa-user"></i> ${comment.user_name}</span>
+            <span><i class="fas fa-clock"></i> ${formatDate(comment.created_at)}</span>
+          </div>
+          <div class="mt-2 text-sm text-secondary" style="font-style:italic;">
+            "${comment.comment}"
+          </div>
+        </div>
+        <div class="list-item-actions">
+          <a href="product-detail.html?id=${comment.product}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-external-link-alt"></i> View
+          </a>
+          <button class="btn btn-primary btn-sm" onclick="openDashboardReplyModal(${comment.id}, '${(comment.comment || '').replace(/'/g, "\\'")}')">
+            <i class="fas fa-reply"></i> Reply
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (error) {
+    container.innerHTML = '<div class="text-danger p-4">Failed to load comments.</div>';
+    console.error(error);
+  }
+}
+
+function openDashboardReplyModal(commentId, questionText) {
+  document.getElementById("replyCommentId").value = commentId;
+  document.getElementById("replyQuestionText").textContent = questionText;
+  document.getElementById("replyText").value = '';
+  openModal("replyCommentModal");
+}
+
+async function handleDashboardReplySubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById("submitReplyBtn");
+  const originalHTML = btn.innerHTML;
+  try {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    const commentId = document.getElementById("replyCommentId").value;
+    const replyText = document.getElementById("replyText").value.trim();
+    if (!replyText) throw new Error("Reply cannot be empty.");
+    await api.createCommentReply(commentId, replyText);
+    closeModal("replyCommentModal");
+    showToast("Reply sent!", "success");
+    loadMyProductComments();
+  } catch (error) {
+    showToast(error.message || "Failed to send reply.", "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+  }
+}
+
+/* ========================================================
+   TAB: My Reports
+   ======================================================== */
+async function loadMyReports() {
+  const container = document.getElementById("reportsList");
+  if (!container) return;
+
+  const REPORT_TYPE_LABELS = {
+    FRAUD: 'Fraud / Scam',
+    BAD_SERVICE: 'Poor Service',
+    UNPROFESSIONAL: 'Unprofessional',
+    HARASSMENT: 'Harassment',
+    SAFETY: 'Safety Concern',
+    OTHER: 'Other'
+  };
+
+  const STATUS_CLASSES = {
+    PENDING: 'status-pending',
+    REVIEWED: 'status-accepted',
+    RESOLVED: 'status-completed',
+    DISMISSED: 'status-rejected'
+  };
+
+  try {
+    const reports = await api.getMyReports();
+
+    if (!reports || reports.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-flag"></i>
+          <h3>No reports submitted</h3>
+          <p>You haven't submitted any reports yet.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = reports.map(report => `
+      <div class="list-item">
+        <div class="list-item-main">
+          <div class="list-item-title">
+            <i class="fas fa-flag text-danger"></i>
+            ${REPORT_TYPE_LABELS[report.report_type] || report.report_type}
+            <span class="status-badge ${STATUS_CLASSES[report.status] || 'status-pending'}">${report.status || 'PENDING'}</span>
+          </div>
+          <div class="list-item-meta">
+            <span><i class="fas fa-user"></i> Reported: ${report.reported_user_name || 'Unknown'}</span>
+            <span><i class="fas fa-clock"></i> ${formatDate(report.created_at)}</span>
+          </div>
+          <div class="mt-2 text-sm text-secondary">${report.description}</div>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (error) {
+    container.innerHTML = '<div class="text-danger p-4">Failed to load reports.</div>';
+    console.error(error);
   }
 }

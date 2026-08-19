@@ -139,6 +139,22 @@ async function loadProviderDetails() {
       });
     }
 
+    // Report Provider button
+    const reportBtn = document.getElementById("reportProviderBtn");
+    if (reportBtn) {
+      reportBtn.addEventListener("click", () => {
+        openModal("reportModal");
+      });
+    }
+
+    // Bind report form
+    const reportForm = document.getElementById("reportForm");
+    if (reportForm) {
+      // Store provider's user data for report
+      document.getElementById("reportedUserId").value = provider.user ? provider.user : '';
+      reportForm.addEventListener("submit", handleReportSubmit);
+    }
+
     // Load Reviews
     loadProviderReviews();
     
@@ -276,7 +292,7 @@ async function handleReviewSubmit(e) {
     
     const reviewData = {
       booking: document.getElementById("review_booking").value,
-      provider: currentProviderId,
+      provider_id: currentProviderId,
       rating: parseInt(document.getElementById("review_rating").value),
       comment: document.getElementById("review_comment").value
     };
@@ -296,5 +312,49 @@ async function handleReviewSubmit(e) {
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
+  }
+}
+
+async function handleReportSubmit(e) {
+  e.preventDefault();
+
+  const submitBtn = document.getElementById("submitReportBtn");
+  const originalHTML = submitBtn.innerHTML;
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+    // reported_profile_id = Profile PK (from URL param, already an integer)
+    // reported_user = UserModel PK, stored from provider data at load time.
+    // ServiceProviderSerializer doesn't expose UserModel PK directly, so we
+    // show a graceful message if it's not available.
+    const reportedUserId = document.getElementById("reportedUserId").value;
+
+    if (!reportedUserId) {
+      showToast("Unable to identify the provider's account ID. Please contact support to report this provider.", "warning");
+      closeModal("reportModal");
+      return;
+    }
+
+    const reportData = {
+      reported_user: parseInt(reportedUserId),
+      report_type: document.getElementById("report_type").value,
+      description: document.getElementById("report_description").value,
+      reported_profile_id: parseInt(currentProviderId),
+    };
+
+    await api.createReport(reportData);
+
+    showToast("Report submitted. Our team will review it shortly.", "success");
+    closeModal("reportModal");
+    document.getElementById("reportForm").reset();
+
+  } catch (error) {
+    console.error("Report error:", error);
+    showToast(error.message || "Failed to submit report.", "error");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalHTML;
   }
 }

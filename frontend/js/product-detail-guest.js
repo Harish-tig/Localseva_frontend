@@ -70,7 +70,7 @@ async function loadProductDetails() {
       statusBadge.className = "badge badge-success";
     }
     
-    // Image
+    // Image (with gallery support)
     const imgEl = document.getElementById("productImage");
     if (product.main_image) {
       imgEl.src = product.main_image;
@@ -78,6 +78,7 @@ async function loadProductDetails() {
     } else {
       imgEl.src = "https://placehold.co/800x600/e2e8f0/64748b?text=No+Image";
     }
+    renderImageGallery(product);
     
     document.getElementById("productDescription").textContent = product.description || "No description provided.";
     document.getElementById("productPrice").textContent = formatCurrency(product.price);
@@ -139,7 +140,19 @@ async function loadComments() {
     }
     
     container.innerHTML = "";
-    comments.forEach(comment => {
+    for (const comment of comments) {
+      const replies = await api.getCommentReplies(comment.id);
+
+      const repliesHtml = replies.length > 0 ? replies.map(r => `
+        <div class="comment-reply" style="margin-left:var(--space-10);margin-top:var(--space-2);padding:var(--space-3);background:var(--bg-alt);border-radius:var(--radius);border-left:3px solid var(--primary);">
+          <div class="flex justify-between">
+            <span class="font-semibold text-xs text-primary"><i class="fas fa-store"></i> Seller Reply</span>
+            <span class="text-xs text-muted">${formatDate(r.created_at)}</span>
+          </div>
+          <p class="text-sm m-0 mt-1">${r.reply}</p>
+        </div>
+      `).join('') : '';
+
       // Initials for avatar
       const initials = (comment.user_name || "U")
         .split(/[\s_]+/)
@@ -153,18 +166,47 @@ async function loadComments() {
           <div class="comment-avatar">
             <span style="font-weight:600;font-size:0.9rem;color:var(--text-secondary);">${initials}</span>
           </div>
-          <div class="comment-content">
+          <div class="comment-content" style="flex:1;">
             <div class="comment-header">
               <span class="font-semibold text-sm">${comment.user_name}</span>
               <span class="text-xs text-muted">${formatDate(comment.created_at)}</span>
             </div>
             <p class="text-sm text-secondary m-0 mt-1">${comment.comment}</p>
+            ${repliesHtml}
           </div>
         </div>
       `;
-    });
+    }
   } catch (error) {
     console.error("Error loading comments:", error);
     container.innerHTML = '<div class="text-danger text-center py-4">Failed to load comments.</div>';
   }
 }
+
+/**
+ * Render a thumbnail gallery if image_2 or image_3 are present
+ */
+function renderImageGallery(product) {
+  const thumbnailContainer = document.getElementById("imageThumbnails");
+  if (!thumbnailContainer) return;
+
+  const images = [product.main_image, product.image_2, product.image_3].filter(Boolean);
+  if (images.length <= 1) {
+    thumbnailContainer.style.display = "none";
+    return;
+  }
+
+  thumbnailContainer.style.display = "flex";
+  thumbnailContainer.innerHTML = images.map((url, i) => `
+    <div class="thumb-item" onclick="switchMainImage('${url}', this)" style="cursor:pointer; width:70px; height:60px; border-radius:var(--radius); overflow:hidden; border: 2px solid ${i === 0 ? 'var(--primary)' : 'var(--border)'}; flex-shrink:0;">
+      <img src="${url}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">
+    </div>
+  `).join('');
+}
+
+window.switchMainImage = function(url, thumbEl) {
+  const mainImg = document.getElementById("productImage");
+  if (mainImg) mainImg.src = url;
+  document.querySelectorAll(".thumb-item").forEach(t => t.style.borderColor = "var(--border)");
+  thumbEl.style.borderColor = "var(--primary)";
+};
